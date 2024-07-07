@@ -1,9 +1,10 @@
+import { Text } from "@chakra-ui/react";
 import "./App.css";
 
 const App = () => {
     return (
         <>
-            <p>Hello World</p>
+            <Text>Hello World</Text>
         </>
     );
 };
