@@ -1,8 +1,11 @@
 {
-    "name": "npo-frontend-vite-template",
+    "name": "npo-client-template",
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "repository": "git@github.com:ctc-uci/npo-template-merged.git",
+    "author": "CTC <ctc@uci.edu>",
+    "license": "MIT",
     "scripts": {
         "dev": "vite --port 3000",
         "build": "vite build",
