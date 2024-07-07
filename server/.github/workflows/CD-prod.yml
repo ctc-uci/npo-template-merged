@@ -1,8 +1,11 @@
-name: EC2 Deploy
+# CD-prod.yml
+
+name: EC2 Prod Deploy
 
 on:
     push:
-        branches: [dev-deployment]
+        branches:
+            - dev
 
 jobs:
     Deploy:
