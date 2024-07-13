@@ -8,11 +8,12 @@
     "scripts": {
         "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run start\"",
         "start": "cd client && vite --port 3000 && cd ../ && cd server && nodemon app.js",
-        "prepare": "cd .. && husky install server/.husky",
+        "prepare": "husky install",
         "lint": "eslint '**/*.js'",
         "format": "npx prettier --write ."
     },
     "devDependencies": {
-        "concurrently": "^8.2.2"
+        "concurrently": "^8.2.2",
+        "husky": "^9.0.11"
     }
 }
