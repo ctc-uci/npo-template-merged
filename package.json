@@ -1,19 +1,27 @@
 {
-    "name": "npo-template-merged",
-    "version": "1.0.0",
-    "private": true,
-    "repository": "git@github.com:ctc-uci/npo-template-merged.git",
-    "author": "CTC <ctc@uci.edu>",
-    "license": "MIT",
-    "scripts": {
-        "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run start\"",
-        "start": "cd client && vite --port 3000 && cd ../ && cd server && nodemon app.js",
-        "prepare": "husky install",
-        "lint": "eslint '**/*.js'",
-        "format": "npx prettier --write ."
-    },
-    "devDependencies": {
-        "concurrently": "^8.2.2",
-        "husky": "^9.0.11"
-    }
+  "name": "npo-template-merged",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "git@github.com:ctc-uci/npo-template-merged.git",
+  "author": "CTC <ctc@uci.edu>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run start\"",
+    "start": "cd client && vite --port 3000 && cd ../ && cd server && nodemon app.js",
+    "prepare": "husky install",
+    "lint": "eslint '**/*.js'",
+    "format": "npx prettier --write ."
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.11"
+  }
 }
