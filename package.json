@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "lint": "eslint '**/*.js'",
     "format": "npx prettier --write .",
-    "install": "yarn add concurrently --save & concurrently \"cd client && yarn install\" \"cd server && yarn install\""
+    "postinstall": "concurrently \"cd client && yarn install\" \"cd server && yarn install\""
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
