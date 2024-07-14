@@ -6,12 +6,12 @@
   "author": "CTC <ctc@uci.edu>",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run start\"",
+    "dev": "concurrently \"cd client && yarn run dev\" \"cd server && yarn run start\"",
     "start": "cd client && vite --port 3000 && cd ../ && cd server && nodemon app.js",
     "prepare": "husky install",
     "lint": "eslint '**/*.js'",
     "format": "npx prettier --write .",
-    "postinstall": "cd client && yarn install && cd ../server && yarn install"
+    "install": "yarn add concurrently --save & concurrently \"cd client && yarn install\" \"cd server && yarn install\""
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
