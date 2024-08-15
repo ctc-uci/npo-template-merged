@@ -9,27 +9,27 @@ const { keysToCamel } = require("../common/utils");
 sampleRouter.use(express.json());
 
 sampleRouter.get("/", async (req, res) => {
-    try {
-        // Query database
-        const data = {};
+  try {
+    // Query database
+    const data = {};
 
-        res.status(200).json(keysToCamel(data));
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    res.status(200).json(keysToCamel(data));
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 sampleRouter.post("/", async (req, res) => {
-    try {
-        // Destructure req.body
+  try {
+    // Destructure req.body
 
-        // Do something with request body
-        const data = {};
+    // Do something with request body
+    const data = {};
 
-        res.status(200).json(keysToCamel(data));
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    res.status(200).json(keysToCamel(data));
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 module.exports = sampleRouter;

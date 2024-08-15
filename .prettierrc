@@ -1,6 +1,6 @@
 {
   "tabWidth": 2,
-  "printWidth": 100,
+  "printWidth": 80,
   "proseWrap": "always",
   "trailingComma": "es5",
   "bracketSpacing": true,
@@ -15,6 +15,7 @@
     "^(react/(.*)$)|^(react$)|^(react-dom$)|^(react-dom/(.*)$)",
     "",
     "^(@chakra-ui/(.*)$)",
+    "",
     "<THIRD_PARTY_MODULES>",
     "",
     "^[./]"

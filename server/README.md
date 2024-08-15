@@ -40,7 +40,8 @@ You will also see any lint errors in the console.
 ### `yarn format`
 
 Formats `.js` files with Prettier.\
-See the [Prettier docs](https://prettier.io/docs/en/index.html) for more information.
+See the [Prettier docs](https://prettier.io/docs/en/index.html) for more
+information.
 
 ## ESLint and Prettier
 
