@@ -22,10 +22,11 @@ jobs:
       - name: Install dependencies
         run:
           npm exec --workspaces -- npx rimraf node_modules && npx rimraf
-          node_modules && yarn workspaces foreach install --frozen-lockfile
+          node_modules && yarn workspaces client install --frozen-lockfile &&
+          yarn workspaces server install --frozen-lockfile
 
       - name: Build React project
         run: yarn workspaces client run build
 
       - name: Run linter
-        run: yarn workspaces foreach run lint
+        run: yarn workspaces client run lint && yarn workspaces server run lint
