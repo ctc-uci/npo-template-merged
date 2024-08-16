@@ -20,7 +20,9 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn workspaces foreach --since run ci
+        run:
+          yarn workspaces foreach --since run rm -rf node_modules && yarn
+          install --frozen-lockfile
 
       - name: Build React project
         run: yarn workspaces client run build
