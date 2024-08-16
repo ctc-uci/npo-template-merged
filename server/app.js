@@ -12,20 +12,20 @@ schedule.scheduleJob("0 0 0 0 0", () => console.log("Hello Cron Job!")); // FIXM
 const app = express();
 
 const CLIENT_HOSTNAME =
-    process.env.NODE_ENV === "DEVELOPMENT"
-        ? `${process.env.DEV_CLIENT_HOSTNAME}:${process.env.DEV_CLIENT_PORT}`
-        : process.env.PROD_CLIENT_HOSTNAME;
+  process.env.NODE_ENV === "DEVELOPMENT"
+    ? `${process.env.DEV_CLIENT_HOSTNAME}:${process.env.DEV_CLIENT_PORT}`
+    : process.env.PROD_CLIENT_HOSTNAME;
 
 const SERVER_PORT =
-    (process.env.NODE_ENV === "DEVELOPMENT"
-        ? process.env.DEV_SERVER_PORT
-        : process.env.PROD_SERVER_PORT) ?? 3001;
+  (process.env.NODE_ENV === "DEVELOPMENT"
+    ? process.env.DEV_SERVER_PORT
+    : process.env.PROD_SERVER_PORT) ?? 3001;
 
 app.use(
-    cors({
-        origin: CLIENT_HOSTNAME,
-        credentials: true,
-    })
+  cors({
+    origin: CLIENT_HOSTNAME,
+    credentials: true,
+  })
 );
 
 app.use(cookieParser());
@@ -34,5 +34,5 @@ app.use(express.json()); // for req.body
 app.use("/", sampleRouter); // FIXME: delete sample endpoint
 
 app.listen(SERVER_PORT, () => {
-    console.log(`Server listening on ${SERVER_PORT}`);
+  console.log(`Server listening on ${SERVER_PORT}`);
 });
