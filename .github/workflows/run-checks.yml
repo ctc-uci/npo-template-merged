@@ -25,8 +25,7 @@ jobs:
           node_modules && yarn install --frozen-lockfile
 
       - name: Build React project
-        run: cd && cd client && yarn run build
+        run: cd client && yarn run build
 
       - name: Run linter
-        run:
-          cd && cd client && yarn run lint && cd && cd server && yarn run lint
+        run: cd client && yarn run lint && cd ../ && cd server && yarn run lint
