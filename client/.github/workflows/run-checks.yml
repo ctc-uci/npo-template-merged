@@ -1,0 +1,29 @@
+name: Run Checks
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 18.18
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn ci
+
+      - name: Build React project
+        run: yarn run build
+
+      - name: Run linter
+        run: yarn run lint
