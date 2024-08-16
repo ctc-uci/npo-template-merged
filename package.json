@@ -2,6 +2,7 @@
   "name": "npo-template-merged",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "repository": "git@github.com:ctc-uci/npo-template-merged.git",
   "author": "CTC <ctc@uci.edu>",
   "license": "MIT",
@@ -12,19 +13,14 @@
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "format": "npx prettier --write ."
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --quiet --fix"
-    ],
-    "*.{json,js,ts,jsx,tsx,html}": [
-      "prettier --write --ignore-unknown"
-    ]
-  },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "concurrently": "^8.2.2",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
     "husky": "^9.0.11",
-    "prettier": "3.3.3"
+    "prettier": "3.3.3",
+    "typescript-eslint": "^8.1.0"
   },
   "workspaces": [
     "client",
