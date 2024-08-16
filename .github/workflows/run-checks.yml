@@ -20,10 +20,10 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn ci
+        run: yarn workspaces foreach --since run ci
 
       - name: Build React project
-        run: yarn run build
+        run: yarn workspaces client run build
 
       - name: Run linter
-        run: yarn run lint
+        run: yarn workspaces foreach run lint
