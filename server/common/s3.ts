@@ -1,18 +1,19 @@
 // FIXME: keep file only if using s3 file upload
 
-const aws = require("aws-sdk");
-const crypto = require("crypto");
+import crypto from "crypto";
+
+import aws from "aws-sdk";
 
 const region =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "DEVELOPMENT"
     ? process.env.DEV_S3_REGION
     : process.env.PROD_S3_REGION;
 const accessKeyId =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "DEVELOPMENT"
     ? process.env.DEV_S3_ACCESS_KEY_ID
     : process.env.PROD_S3_ACCESS_KEY_ID;
 const secretAccessKey =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "DEVELOPMENT"
     ? process.env.DEV_SECRET_ACCESS_KEY
     : process.env.PROD_S3_SECRET_ACCESS_KEY;
 
@@ -36,7 +37,7 @@ const getS3UploadURL = async () => {
   };
 
   // get a s3 upload url
-  const uploadURL = await s3.getSignedUrl("putObject", params);
+  const uploadURL = s3.getSignedUrl("putObject", params);
 
   return uploadURL;
 };
