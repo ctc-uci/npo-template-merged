@@ -10,7 +10,7 @@
     "dev": "concurrently \"cd client && yarn run dev\" \"cd server && yarn run start\"",
     "start": "concurrently \"cd client && yarn run dev\" \"cd server && yarn run start\"",
     "prepare": "husky install",
-    "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint",
     "format": "npx prettier --write ."
   },
   "lint-staged": {
