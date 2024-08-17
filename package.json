@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \"cd client && yarn run dev\" \"cd server && yarn run start\"",
-    "start": "cd client && vite --port 3000 && cd ../ && cd server && nodemon app.js",
+    "start": "concurrently \"cd client && yarn run dev\" \"cd server && yarn run start\"",
     "prepare": "husky install",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "format": "npx prettier --write ."
