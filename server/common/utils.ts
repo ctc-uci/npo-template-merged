@@ -89,7 +89,7 @@ const keysToCamel = (data: object | string[] | string) => {
   return data;
 };
 
-module.exports = {
+export {
   isNumeric,
   isBoolean,
   isZipCode,

@@ -1,11 +1,10 @@
 // FIXME: delete sample router file
 
-const express = require("express");
+import express from "express";
+
+import { keysToCamel } from "../common/utils";
 
 const sampleRouter = express.Router();
-
-const { keysToCamel } = require("../common/utils");
-
 sampleRouter.use(express.json());
 
 sampleRouter.get("/", async (req, res) => {

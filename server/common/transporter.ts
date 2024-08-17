@@ -31,4 +31,4 @@ const transport = {
 
 const transporter = nodemailer.createTransport(transport);
 
-module.exports = { transporter, emailSender };
+export { transporter, emailSender };

@@ -42,7 +42,4 @@ const getS3UploadURL = async () => {
   return uploadURL;
 };
 
-module.exports = {
-  s3,
-  getS3UploadURL,
-};
+export { s3, getS3UploadURL };
