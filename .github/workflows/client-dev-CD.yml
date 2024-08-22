@@ -1,6 +1,6 @@
-# CD-prod.yml
+# client-dev-CD.yml
 
-name: S3 Prod Deploy
+name: S3 Dev Deploy
 on:
   push:
     branches:
@@ -11,8 +11,7 @@ env:
   VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
   VITE_FIREBASE_PROJECTID: ${{ secrets.VITE_FIREBASE_PROJECTID }}
   VITE_FIREBASE_STORAGEBUCKET: ${{ secrets.VITE_FIREBASE_STORAGEBUCKET }}
-  VITE_FIREBASE_MESSAGINGSENDERID:
-    ${{ secrets.VITE_FIREBASE_MESSAGINGSENDERID }}
+  VITE_FIREBASE_MESSAGINGSENDERID: ${{ secrets.VITE_FIREBASE_MESSAGINGSENDERID }}
   VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
   VITE_BACKEND_HOST: ${{ secrets.VITE_BACKEND_HOST }}
   # …and any additional environment variables
