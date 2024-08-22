@@ -31,4 +31,4 @@ sampleRouter.post("/", async (req, res) => {
   }
 });
 
-module.exports = sampleRouter;
+export { sampleRouter };
