@@ -1,6 +1,6 @@
-# CD-dev.yml
+# server-prod-CD.yml
 
-name: EC2 Dev Deploy
+name: EC2 Prod Deploy
 
 on:
   push:
