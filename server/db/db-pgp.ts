@@ -1,7 +1,9 @@
 // FIXME: keep file only if using postgresql
 
-const pgp = require("pg-promise")({});
-require("dotenv").config();
+import dotenv from "dotenv";
+import pgPromise from "pg-promise";
+
+dotenv.config();
 
 const host =
   process.env.NODE_ENV === "development"
@@ -24,15 +26,17 @@ const port =
     ? process.env.DEV_DB_PORT
     : process.env.PROB_DB_PORT;
 
+const pgp = pgPromise({});
+
 const db = pgp({
   host,
   user,
   password,
   database,
-  port,
+  port: Number(port),
   ssl: {
     rejectUnauthorized: false,
   },
 });
 
-module.exports = { db, pgp };
+export { db, pgp };

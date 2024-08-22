@@ -3,7 +3,6 @@
 ## Screenshots/Media
 
 ## Issues
-
 Closes #
 
 <!-- [Optional]

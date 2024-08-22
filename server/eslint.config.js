@@ -5,13 +5,13 @@ import tseslint from "typescript-eslint";
 export default tseslint.config({
   extends: [js.configs.recommended, ...tseslint.configs.recommended],
   files: ["**/*.{ts,tsx,js,jsx}"],
-  ignores: ["dist", "server/**/*", "client/**/*"], //
+  ignores: ["dist"],
   languageOptions: {
     ecmaVersion: 2020,
     globals: globals.browser,
   },
+
   rules: {
-    eqeqeq: "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
@@ -21,5 +21,6 @@ export default tseslint.config({
         caughtErrorsIgnorePattern: "^_",
       },
     ],
+    eqeqeq: "error",
   },
 });

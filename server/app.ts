@@ -1,11 +1,13 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser"); // FIXME: Keep only if using cookies
-const schedule = require("node-schedule"); // FIXME: Keep only if scheduling cronjobs
-require("dotenv").config();
+import cookieParser from "cookie-parser"; // FIXME: Keep only if using cookies
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import schedule from "node-schedule"; // FIXME: Keep only if scheduling cronjobs
 
 // Routes
-const sampleRouter = require("./routes/sample"); // FIXME: delete sample router
+import { sampleRouter } from "./routes/sample"; // FIXME: delete sample router
+
+dotenv.config();
 
 schedule.scheduleJob("0 0 0 0 0", () => console.log("Hello Cron Job!")); // FIXME: delete sample cronjob
 
