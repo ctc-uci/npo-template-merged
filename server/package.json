@@ -8,7 +8,7 @@
   "author": "CTC <ctc@uci.edu>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "tsx watch app.ts",
     "lint": "eslint",
     "format": "npx prettier --write ."
   },
@@ -46,6 +46,7 @@
     "eslint-config-prettier": "^8.3.0",
     "globals": "^15.9.0",
     "lint-staged": "^11.2.6",
+    "tsx": "^4.17.0",
     "typescript-eslint": "^8.1.0"
   }
 }
