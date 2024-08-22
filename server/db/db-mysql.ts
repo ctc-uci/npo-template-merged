@@ -1,6 +1,6 @@
 // FIXME: keep file only if using mysql
 
-const mysql = require("mysql");
+import mysql from "mysql";
 
 const host =
   process.env.NODE_ENV === "development"
@@ -28,4 +28,4 @@ const db = mysql.createConnection({
 
 db.connect();
 
-module.exports = { mysql, db };
+export { mysql, db };
