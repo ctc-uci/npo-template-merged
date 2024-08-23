@@ -26,9 +26,9 @@ const port =
     ? process.env.DEV_DB_PORT
     : process.env.PROB_DB_PORT;
 
-const pgp = pgPromise({});
+export const pgp = pgPromise({});
 
-const db = pgp({
+export const db = pgp({
   host,
   user,
   password,
@@ -38,5 +38,3 @@ const db = pgp({
     rejectUnauthorized: false,
   },
 });
-
-export { db, pgp };

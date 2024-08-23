@@ -16,5 +16,3 @@ const mongoConnection = mongoose.connection;
 mongoConnection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
-
-export { mongoose };
