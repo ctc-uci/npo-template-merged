@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { admin } from "../config/firebase";
-import { db } from "../db/db-pgp"; // FIXME: replace this db with
+import { db } from "../db/db-pgp"; // TODO: replace this db with
 
 export const userRouter = Router();
 

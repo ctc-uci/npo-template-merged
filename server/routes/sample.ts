@@ -1,4 +1,4 @@
-// FIXME: delete sample router file
+// TODO: delete sample router file
 
 import express from "express";
 

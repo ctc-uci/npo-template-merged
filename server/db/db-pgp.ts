@@ -1,4 +1,4 @@
-// FIXME: keep file only if using postgresql
+// TODO: keep file only if using postgresql
 
 import dotenv from "dotenv";
 import pgPromise from "pg-promise";

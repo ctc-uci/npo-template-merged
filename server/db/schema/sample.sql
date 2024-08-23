@@ -1,4 +1,4 @@
--- FIXME: delete sample file
+-- TODO: delete sample file
 
 DROP TABLE IF EXISTS sample CASCADE;
 

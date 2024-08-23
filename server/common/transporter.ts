@@ -1,4 +1,4 @@
-// FIXME: keep file only if using nodemailer
+// TODO: keep file only if using nodemailer
 
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";

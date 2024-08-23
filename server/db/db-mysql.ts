@@ -1,4 +1,4 @@
-// FIXME: keep file only if using mysql
+// TODO: keep file only if using mysql
 
 import mysql from "mysql";
 

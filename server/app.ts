@@ -1,18 +1,15 @@
-import cookieParser from "cookie-parser"; // FIXME: Keep only if using cookies
+import cookieParser from "cookie-parser"; // TODO: Keep only if using cookies
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import schedule from "node-schedule"; // FIXME: Keep only if scheduling cronjobs
+import schedule from "node-schedule"; // TODO: Keep only if scheduling cronjobs
 
-// Routes
 import { authRouter } from "./routes/auth";
-import { sampleRouter } from "./routes/sample"; // FIXME: delete sample router
+import { sampleRouter } from "./routes/sample"; // TODO: delete sample router
 
 dotenv.config();
 
-schedule.scheduleJob("0 0 0 0 0", () => console.log("Hello Cron Job!")); // FIXME: delete sample cronjob
-
-const app = express();
+schedule.scheduleJob("0 0 0 0 0", () => console.log("Hello Cron Job!")); // TODO: delete sample cronjob
 
 const CLIENT_HOSTNAME =
   process.env.NODE_ENV === "DEVELOPMENT"
@@ -24,6 +21,7 @@ const SERVER_PORT =
     ? process.env.DEV_SERVER_PORT
     : process.env.PROD_SERVER_PORT) ?? 3001;
 
+const app = express();
 app.use(
   cors({
     origin: CLIENT_HOSTNAME,
@@ -32,9 +30,9 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use(express.json());
 
-app.use(express.json()); // for req.body
-app.use("/", sampleRouter); // FIXME: delete sample endpoint
+app.use("/", sampleRouter); // TODO: delete sample endpoint
 app.use("/auth", authRouter);
 
 app.listen(SERVER_PORT, () => {
