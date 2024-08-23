@@ -5,6 +5,7 @@ import express from "express";
 import schedule from "node-schedule"; // FIXME: Keep only if scheduling cronjobs
 
 // Routes
+import { authRouter } from "./routes/auth";
 import { sampleRouter } from "./routes/sample"; // FIXME: delete sample router
 
 dotenv.config();
@@ -34,6 +35,7 @@ app.use(cookieParser());
 
 app.use(express.json()); // for req.body
 app.use("/", sampleRouter); // FIXME: delete sample endpoint
+app.use("/auth", authRouter);
 
 app.listen(SERVER_PORT, () => {
   console.log(`Server listening on ${SERVER_PORT}`);
