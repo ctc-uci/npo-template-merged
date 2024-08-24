@@ -1,12 +1,14 @@
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
-import "./App.css";
+import { BackendProvider } from "./contexts/BackendContext";
 
 const App = () => {
   return (
-    <>
-      <Text>Hello World</Text>
-    </>
+    <BackendProvider>
+      <Box>
+        <Text>Hello World</Text>
+      </Box>
+    </BackendProvider>
   );
 };
 

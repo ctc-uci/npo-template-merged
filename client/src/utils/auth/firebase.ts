@@ -1,3 +1,4 @@
+import axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
@@ -5,8 +6,10 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
+  User,
 } from "firebase/auth";
 
+import { cookieConfig, cookieKeys, setCookie } from "./cookie";
 import { FirebaseUtilParams, FirebaseUtilRedirectParams } from "./types";
 
 const firebaseConfig = {
@@ -21,6 +24,64 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+/**
+ * Synchronously retrieves the current user.
+ */
+export const getCurrentUser = (): Promise<User | null> => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
+};
+
+const REFRESH_URL = `https://securetoken.googleapis.com/v1/token?key=${
+  import.meta.env.VITE_FIREBASE_APIKEY
+}`;
+
+export const refreshToken = async () => {
+  const backend = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_HOST,
+    withCredentials: true,
+  });
+
+  const currentUser = await getCurrentUser();
+
+  if (currentUser) {
+    const refreshToken = currentUser.refreshToken;
+    const {
+      data: { access_token: idToken },
+    } = await axios.post(REFRESH_URL, {
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    });
+
+    // Sets the appropriate cookies after refreshing access token
+    setCookie({
+      key: cookieKeys.ACCESS_TOKEN,
+      value: idToken,
+      config: cookieConfig,
+    });
+
+    const user = await backend.get(`/users/${auth.currentUser?.uid}`);
+    setCookie({
+      key: cookieKeys.ROLE,
+      value: user.data[0].type,
+      config: cookieConfig,
+    });
+
+    return { accessToken: idToken, currentUser: user.data[0] };
+  }
+  return null;
+};
 
 export const createUserInFirebase = async ({
   email,

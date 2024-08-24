@@ -5,8 +5,6 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 import App from "./App.tsx";
 
-import "./index.css";
-
 const colors = {
   brand: {},
 };

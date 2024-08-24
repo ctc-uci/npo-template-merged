@@ -19,7 +19,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     } = req;
 
     if (!accessToken) {
-      return res.status(400).send("@verifyToken no access token");
+      return res.status(400).send("@verifyToken invalid access token");
     }
 
     const decodedToken = await admin.auth().verifyIdToken(accessToken);
