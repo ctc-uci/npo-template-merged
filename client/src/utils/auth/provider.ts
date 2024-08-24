@@ -5,8 +5,8 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { FirebaseUtilRedirectParams } from "./auth";
 import { auth } from "./firebase";
+import { FirebaseUtilRedirectParams } from "./types";
 
 const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();

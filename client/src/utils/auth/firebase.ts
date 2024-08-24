@@ -7,7 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { FirebaseUtilParams, FirebaseUtilRedirectParams } from "./auth";
+import { FirebaseUtilParams, FirebaseUtilRedirectParams } from "./types";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
