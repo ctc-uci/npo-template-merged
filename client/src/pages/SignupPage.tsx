@@ -48,18 +48,23 @@ export const SignupPage = () => {
 
   const handleSignup = async (data: SignupFormValues) => {
     try {
-      await signup({
+      const user = await signup({
         email: data.email,
         password: data.password,
       });
+
+      if (user) {
+        navigate("/dashboard");
+      }
     } catch (err) {
-      console.log(err);
-      toast({
-        title: "An error occurred",
-        description: err,
-        status: "error",
-        variant: "subtle",
-      });
+      if (err instanceof Error) {
+        toast({
+          title: "An error occurred",
+          description: err.message,
+          status: "error",
+          variant: "subtle",
+        });
+      }
     }
   };
 
