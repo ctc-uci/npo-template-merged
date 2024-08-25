@@ -23,7 +23,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 /**
  * Synchronously retrieves the current user.
@@ -153,5 +153,3 @@ export const logout = async ({
 export const sendResetPasswordPrompt = async (email: string) => {
   await sendPasswordResetEmail(auth, email);
 };
-
-export { auth };

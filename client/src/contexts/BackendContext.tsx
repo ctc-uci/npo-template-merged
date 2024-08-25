@@ -6,7 +6,11 @@ import { authInterceptor } from "../utils/auth/authInterceptor";
 
 const baseURL = import.meta.env.VITE_BACKEND_HOSTNAME;
 
-const BackendContext = createContext<{ backend: AxiosInstance } | null>(null);
+interface BackendContextProps {
+  backend: AxiosInstance;
+}
+
+export const BackendContext = createContext<BackendContextProps | null>(null);
 
 export const BackendProvider = ({ children }: { children: ReactNode }) => {
   const backend = axios.create({

@@ -15,11 +15,11 @@ interface AuthContextProps {
   currentUser: User | null;
   signup: ({ email, password }: EmailPassword) => Promise<UserCredential>;
   login: ({ email, password }: EmailPassword) => Promise<UserCredential>;
-  logout: ({ email, password }: EmailPassword) => Promise<void>;
-  resetPassword: ({ email, password }: EmailPassword) => Promise<void>;
+  logout: () => Promise<void>;
+  resetPassword: ({ email }: Pick<EmailPassword, "email">) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextProps | null>(null);
+export const AuthContext = createContext<AuthContextProps | null>(null);
 
 interface EmailPassword {
   email: string;
