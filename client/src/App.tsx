@@ -2,7 +2,8 @@ import { Flex } from "@chakra-ui/react";
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import { CatchAll } from "./components/CatchAll";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackendProvider } from "./contexts/BackendContext";
 import { DashboardPage } from "./pages/DashboardPage";
@@ -30,6 +31,12 @@ const App = () => {
               <Route
                 path="/dashboard"
                 element={<ProtectedRoute element={<DashboardPage />} />}
+              />
+
+              {/* Catch-all route */}
+              <Route
+                path="*"
+                element={<ProtectedRoute element={<CatchAll />} />}
               />
             </Routes>
           </Router>

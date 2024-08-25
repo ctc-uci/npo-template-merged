@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
   element: JSX.Element;
 }
 
-const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   const { currentUser } = useAuthContext();
   // const [isLoading, setIsLoading] = useState(true);
 
@@ -22,5 +22,3 @@ const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
 
   return currentUser ? element : <Navigate to={"/login"} />;
 };
-
-export default ProtectedRoute;
