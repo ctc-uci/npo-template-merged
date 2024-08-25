@@ -98,6 +98,7 @@ export const LoginPage = () => {
     const handleRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
+
         if (result) {
           navigate("/dashboard");
         }
