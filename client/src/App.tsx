@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { BackendProvider } from "./contexts/BackendContext";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
+import { SignupPage } from "./pages/SignupPage";
 
 const App = () => {
   return (
@@ -27,6 +28,10 @@ const App = () => {
               <Route
                 path="/login"
                 element={<LoginPage />}
+              />
+              <Route
+                path="/signup"
+                element={<SignupPage />}
               />
               <Route
                 path="/dashboard"
