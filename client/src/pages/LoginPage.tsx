@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   Button,
   Center,
@@ -11,12 +13,13 @@ import {
 } from "@chakra-ui/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getRedirectResult } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { logInWithEmailAndPassWord } from "../utils/auth/firebase";
+import { auth, logInWithEmailAndPassWord } from "../utils/auth/firebase";
 import { createGoogleUserInFirebase } from "../utils/auth/providers";
 
 const signinSchema = z.object({
@@ -90,6 +93,20 @@ export const LoginPage = () => {
   const handleGoogleLogin = async () => {
     await createGoogleUserInFirebase({ redirect: "/login", navigate });
   };
+
+  useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error("Redirect result error:", error);
+      }
+    };
+    handleRedirectResult();
+  }, [navigate]);
 
   return (
     <VStack
