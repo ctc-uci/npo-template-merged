@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { keysToCamel } from "../common/utils";
 import { admin } from "../config/firebase";
 import { db } from "../db/db-pgp"; // TODO: replace this db with
 
@@ -8,42 +9,42 @@ export const userRouter = Router();
 // Get all users
 userRouter.get("/", async (req, res) => {
   try {
-    const user = await db.query(`SELECT * FROM users`);
-    res.send({
-      account: user.rows,
-    });
+    const users = await db.query(`SELECT * FROM users`);
+
+    res.status(200).json(keysToCamel(users));
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
 // Get a user by ID
-userRouter.get("/:userId", async (req, res) => {
+userRouter.get("/:firebaseUid", async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { firebaseUid } = req.params;
 
-    const user = await db.query("SELECT * FROM users WHERE user_id = $1", [
-      userId,
+    const user = await db.query("SELECT * FROM users WHERE firebase_uid = $1", [
+      firebaseUid,
     ]);
-    res.send({
-      user: user.rows[0],
-    });
+
+    res.status(200).json(keysToCamel(user));
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
 // Delete a user by ID, both in Firebase and NPO DB
-userRouter.delete("/:userId", async (req, res) => {
+userRouter.delete("/:firebaseUid", async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { firebaseUid } = req.params;
 
     // Firebase delete
-    await admin.auth().deleteUser(userId);
+    await admin.auth().deleteUser(firebaseUid);
     // DB delete
-    await db.query("DELETE FROM users WHERE user_id = $1", [userId]);
+    const user = await db.query("DELETE FROM users WHERE firebase_uid = $1", [
+      firebaseUid,
+    ]);
 
-    res.status(200).send(`Deleted user with ID: ${userId}`);
+    res.status(200).json(keysToCamel(user));
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -52,35 +53,30 @@ userRouter.delete("/:userId", async (req, res) => {
 // Create user
 userRouter.post("/create", async (req, res) => {
   try {
-    const { email, userId } = req.body;
+    const { email, firebaseUid } = req.body;
 
-    const newUser = await db.query(
-      "INSERT INTO users (email, user_id) VALUES ($1, $2) RETURNING *",
-      [email, userId]
+    const user = await db.query(
+      "INSERT INTO users (email, firebase_uid) VALUES ($1, $2) RETURNING *",
+      [email, firebaseUid]
     );
 
-    res.status(200).send({
-      newUser: newUser.rows[0],
-    });
+    res.status(200).json(keysToCamel(user));
   } catch (err) {
     res.status(500).send(err.message);
   }
 });
 
 // Update a user by ID
-userRouter.put("/update/:userId", async (req, res) => {
+userRouter.put("/update", async (req, res) => {
   try {
-    const { userId } = req.params;
-    const { email } = req.body;
+    const { email, firebaseUid } = req.body;
 
     const user = await db.query(
-      "UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *",
-      [email, userId]
+      "UPDATE users SET email = $1 WHERE firebase_uid = $2 RETURNING *",
+      [email, firebaseUid]
     );
 
-    res.send({
-      user: user.rows[0],
-    });
+    res.status(200).json(keysToCamel(user));
   } catch (err) {
     res.status(400).send(err.message);
   }
