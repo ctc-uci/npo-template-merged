@@ -14,16 +14,18 @@ In short, the most viable option for a self-hosted application was [Option 3: Pr
 
 ## How To
 
-1. Update the `authDomain` in your Firebase config
+### 1. Update the `authDomain` in your Firebase config
 
 ```
 + VITE_FIREBASE_AUTHDOMAIN=localhost:3000
 - VITE_FIREBASE_AUTHDOMAIN=your-project.firebaseapp.com
 ```
 
-2. Update your Vite config
-    a. Install the Vite SSL plugin: `yarn add -D @vitejs/plugin-basic-ssl`
-    b. Edit your config as shown below:
+### 2. Update your Vite config
+
+First, Install the Vite SSL plugin: `yarn add -D @vitejs/plugin-basic-ssl`
+
+Then, edit your config as shown below:
 
 ```
 import basicSsl from "@vitejs/plugin-basic-ssl";
@@ -52,14 +54,28 @@ export default defineConfig(() => {
 > Adding `basicSsl()` will result in the application running on https: `https://localhost`. This is an unfortunate result of `firebase/auth` having a bug (feature?) where all redirects are routed to `https`. 
 > This issue is being tracked [here](https://github.com/firebase/firebase-js-sdk/issues/7342) with a semi-working PR [here](https://github.com/firebase/firebase-js-sdk/pull/7783), but currently the only solution appears to be to develop locally using `https`.
 
-3. Update Google Cloud Console
+### 3. Update Google Cloud Console
 Go to the [Google Cloud Console](https://console.cloud.google.com/) and find the project associated with your Firebase instance. 
 
-Navigate to the [credentials page](https://console.cloud.google.com/apis/credentials) and under OAuth 2.0, update the Web Client's Authorized Javascript origins and Authorized redirect URIs.
+Navigate to the [credentials page](https://console.cloud.google.com/apis/credentials) and under OAuth 2.0, update the Web Client's Authorized Javascript origins and Authorized redirect URIs. 
 
-[[ INSERT IMAGE HERE ]]
+You'll want to add
 
-4. Update Firebase Console
+...under Authorized Javascript origins:
+- https://localhost
+- http://localhost:3000
+- https://localhost:3000
+
+...under Authorized redirect URIs:
+- http://localhost:3000/__/auth/handler
+- https://localhost:3000/__/auth/handler
+
+> [!NOTE]  
+> Make sure to update this configuration with your eventual deployment domains!
+
+<img width="400" alt="Google Cloud Console configuration" src="https://github.com/user-attachments/assets/9dc63ad0-8de2-4f45-9099-c38ea94e40ca">
+
+### 4. Update Firebase Console
 When ready to deploy, you'll also need to add your eventual domain to the list of authorized domains in Firebase
 
-[[ INSERT IMAGE HERE ]]
+<img width="900" alt="Firebase Console settings" src="https://github.com/user-attachments/assets/d4ce1001-ab22-49b9-8c09-bf433c3cd27f">
