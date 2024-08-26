@@ -1,8 +1,8 @@
-# `signInWithRedirect`
+# Fixing `signInWithRedirect` with `patch-package`
 
-> Author: Kevin Wu
-> Originally Written: 8/26/24
-> Last Updated: 8/26/24
+> Author: Kevin Wu  
+> Originally Written: 8/26/24  
+> Last Updated: 8/26/24  
 
 ## Background
 
@@ -14,7 +14,7 @@ However, due to the usage of hard-coded `https` in two key locations:
 - [`getHandlerBase`](https://github.com/firebase/firebase-js-sdk/blob/4ff947408728ce4ae20229d7eb0cd71c3e65c885/packages/auth/src/core/util/handler.ts#L132)
 - [`getIframeUrl`](https://github.com/firebase/firebase-js-sdk/blob/4ff947408728ce4ae20229d7eb0cd71c3e65c885/packages/auth/src/platform_browser/iframe/iframe.ts#L58)
 
-... OAuth paths would be routed to `https://`, which would not exist for local development (`http`). 
+... OAuth paths would be routed to `https`, which would not exist for local development (`http`). 
 
 ## Solution
 
@@ -30,16 +30,16 @@ import { defineConfig } from "vite";
 export default defineConfig(() => {
   return {
     plugins: [react()],
-    server: {
-      proxy: {
-        "/__/auth": {
-          target: "https://your-project.firebaseapp.com", // make sure to change this to your actual authDomain (provided in your Firebase config)!
-          changeOrigin: true,
-          secure: true,
-          rewrite: (path) => path.replace(/^\/__\/auth/, "/__/auth"),
-        },
-      },
-    },
++   server: {
++     proxy: {
++       "/__/auth": {
++         target: "https://your-project.firebaseapp.com", // make sure to change this to your actual authDomain (provided in your Firebase config)!
++         changeOrigin: true,
++         secure: true,
++         rewrite: (path) => path.replace(/^\/__\/auth/, "/__/auth"),
++       },
++     },
++   },
   };
 });
 ```
@@ -52,7 +52,9 @@ export default defineConfig(() => {
 
 ### Un-hoisting `firebase`
 
-Our monorepo is built using [Yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/), a great way to manage dependencies across multiple repositories. One included feature is "hoisting", which aims to reduce duplicated dependencies. The TL;DR is that packages are installed at the root `node_modules` level, and critically, not within invidiual repositories (e.g. `/client`). Because our repositories are [deployed individually](https://docs.google.com/document/d/18Nnfs0Au9-SmcRsaKHVpZQUiNm5xL6H6IA7E01L6cYE/), patches need to be applied within invidiual repositories, not at the root.
+Our monorepo is built using [Yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/), a great way to manage dependencies across multiple repositories. One included feature is "hoisting", which aims to reduce duplicated dependencies. 
+
+The TL;DR is that packages are installed at the root `node_modules` level, and critically, not within invidiual repositories (e.g. `/client`). Because our repositories are [deployed individually](https://docs.google.com/document/d/18Nnfs0Au9-SmcRsaKHVpZQUiNm5xL6H6IA7E01L6cYE/), patches need to be applied within invidiual repositories, not at the root.
 
 To un-hoist `firebase`, we can make the following change to our root `package.json`:
 
@@ -73,7 +75,7 @@ To un-hoist `firebase`, we can make the following change to our root `package.js
 > `firebase/auth` is installed as a package within `firebase`, so although we're only interested in `firebase/auth`, we need to un-hoist the whole `firebase` page.
 
 > [!TIP]
-> The patterns `**/your-package` and `**/your-package/**` "instructs yarn not to hoist [your-package] and all of its dependencies". See this [blog post](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) on `nohoist` to learn more!
+> The patterns `**/your-package` and `**/your-package/**` "instructs yarn not to hoist `[your-package]` and all of its dependencies". See this [blog post](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) on `nohoist` to learn more!
 
 > [!TIP]
 > `nohoist` should be used sparingly. Preventing a flattening (de-duplication) of dependencies is, in most cases, inherently wasteful!
@@ -103,13 +105,14 @@ Delete `node_modules` in both the root and in `/client`. Then run `yarn install 
 
 ### Making the patch
 
-In our case, the offending file can be found here: `node_modules/@firebase/auth/dist/esm2017/index-21205181.js`. 
+In our case, the offending file for `firebase@10.12.5`  can be found here: `node_modules/@firebase/auth/dist/esm2017/index-21205181.js`. 
 
 > [!TIP]
-> In case this file doesn't exist, or you're aiming to patch another file, a handy trick (if you know some portion of the file you'd like to patch), is to run `grep`: 
-> grep -rl --include="*.js" '[some-code-snippet]' .
+> In case this file doesn't exist, or you're aiming to patch another file, a handy trick (if you know some portion of the file you'd like to patch), is to run `grep`:
+> 
+> `grep -rl --include="*.js" '[some-code-snippet]' .`
 >
-> This command will recursively `-r` look for Javascript files `--include"*.js*"` which include the supplied string `'[some-code-snippet]'` across all files `.` and return only the file paths `-l`.
+> This command will recursively `-r` look for Javascript files `--include"*.js"` which include the supplied string `'[some-code-snippet]'` across all files `.` and return only the file paths `-l`.
 
 Then, we can make our edits to `getIframeUrl` and `getHandlerBase`. 
 
