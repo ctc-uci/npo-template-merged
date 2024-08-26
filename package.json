@@ -11,8 +11,7 @@
     "start": "yarn tsx concurrently.ts",
     "prepare": "husky install",
     "lint": "eslint",
-    "format": "npx prettier --write .",
-    "postinstall": "patch-package"
+    "format": "npx prettier --write ."
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "yarn run eslint"
@@ -23,8 +22,6 @@
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
     "husky": "^9.0.11",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
     "prettier": "3.3.3",
     "typescript-eslint": "^8.1.0"
   },
@@ -34,8 +31,8 @@
       "server"
     ],
     "nohoist": [
-      "**/firebase/auth",
-      "**/firebase/auth/**"
+      "**/firebase",
+      "**/firebase/**"
     ]
   }
 }
