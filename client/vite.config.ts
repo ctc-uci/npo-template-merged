@@ -5,6 +5,12 @@ import { defineConfig } from "vite";
 export default defineConfig(() => {
   return {
     plugins: [react()],
+
+    /**
+     * Configuration for proxying auth requests from our domain to firebaseapp.com.
+     *
+     * @see {@link client/docs/signInWithRedirect.md} for more detailed documentation.
+     */
     server: {
       proxy: {
         "/__/auth": {

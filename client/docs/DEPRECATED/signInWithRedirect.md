@@ -1,11 +1,16 @@
-# `signInWithRedirect` without 3rd Party Cookies
+# [DEPRECATED] `signInWithRedirect` without 3rd Party Cookies
 
-> Last updated: 8/25/24
+> Author: Kevin Wu
+> Originally written: 8/25/24
+> Last Updated: 8/26/24
+
+> [!IMPORTANT]  
+> As of 8/26/24, this README is **no longer accurate in any form whatsoever**. This README documents a previously implemented solution to a bug in `firebase/auth` which forced development on `https` in order to use `signInWithRedirect`. Thankfully, a simple patch using `patch-package` has allowed us to resolve this problem while a proper fix is shipped by the Firebase team. 
 
 On June 24, 2024, cross origin redirect sign-in, the "default" way of signing in
 with Firebase using `signInWithRedirect` officially stopped working as part of a
 broader initiative blocking third-party cookies across Chrome browsers (which
-was also preceeded by Firefox and Safari doing the same).
+was also preceded by Firefox and Safari doing the same).
 
 As a result, applications using `signInWithRedirect` were advised to find a
 solution described in [Firebase's best practices](https://firebase.google.com/docs/auth/web/redirect-best-practices).

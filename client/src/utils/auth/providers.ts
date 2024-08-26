@@ -11,11 +11,18 @@ import { FirebaseUtilRedirectParams } from "./types";
 const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();
 
+/**
+ * `signInWithRedirect` is patched!
+ *
+ * @see {@link client/docs/signInWithRedirect.md} for more detailed documentation.
+ */
+const patchedSignInWithRedirect = signInWithRedirect;
+
 export async function createFacebookUserInFirebase({
   redirect,
   navigate,
 }: FirebaseUtilRedirectParams) {
-  await signInWithRedirect(auth, facebookProvider);
+  await patchedSignInWithRedirect(auth, facebookProvider);
   navigate(redirect);
 }
 
@@ -23,7 +30,7 @@ export async function createGoogleUserInFirebase({
   redirect,
   navigate,
 }: FirebaseUtilRedirectParams) {
-  await signInWithRedirect(auth, googleProvider);
+  await patchedSignInWithRedirect(auth, googleProvider);
   navigate(redirect);
 }
 

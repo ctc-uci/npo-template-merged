@@ -14,6 +14,12 @@ import { FirebaseUtilParams, FirebaseUtilRedirectParams } from "./types";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
+  /**
+   * `authDomain` should be set to your deployment domain or your local domain (e.g. `localhost:3000`). It should **NOT** be the default value provided by Firebase (e.g. `your-project.firebaseapp.com`)
+   *
+   * @see {@link https://firebase.google.com/docs/auth/web/redirect-best-practices#proxy-requests} for the officially documented reasons why.
+   * @see {@link client/docs/signInWithRedirect.md} for more detailed documentation.
+   */
   authDomain: import.meta.env.VITE_FIREBASE_AUTHDOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECTID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGEBUCKET,
