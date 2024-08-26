@@ -1,8 +1,8 @@
 # [DEPRECATED] `signInWithRedirect` without 3rd Party Cookies
 
-> Author: Kevin Wu
-> Originally written: 8/25/24
-> Last Updated: 8/26/24
+> Author: Kevin Wu  
+> Originally written: 8/25/24  
+> Last Updated: 8/26/24  
 
 > [!IMPORTANT]  
 > As of 8/26/24, this README is **no longer accurate in any form whatsoever**. This README documents a previously implemented solution to a bug in `firebase/auth` which forced development on `https` in order to use `signInWithRedirect`. Thankfully, a simple patch using `patch-package` has allowed us to resolve this problem while a proper fix is shipped by the Firebase team. 
