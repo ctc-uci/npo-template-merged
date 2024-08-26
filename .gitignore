@@ -61,3 +61,6 @@ Desktop.ini
 *.njsproj
 *.sln
 *.sw?
+
+# firebase sdk
+firebase-adminsdk.json

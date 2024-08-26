@@ -1,4 +1,4 @@
-// FIXME: keep file only if using mongodb
+// TODO: keep file only if using mongodb
 import mongoose from "mongoose";
 
 const mongoURI =
@@ -16,5 +16,3 @@ const mongoConnection = mongoose.connection;
 mongoConnection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
-
-export { mongoose };

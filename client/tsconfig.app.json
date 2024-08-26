@@ -18,7 +18,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "useUnknownInCatchVariables": false, // https://stackoverflow.com/a/69445095
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src"]
 }

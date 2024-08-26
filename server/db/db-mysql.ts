@@ -1,8 +1,8 @@
-// FIXME: keep file only if using mysql
+// TODO: keep file only if using mysql
 
 import mysql from "mysql";
 
-const host =
+export const host =
   process.env.NODE_ENV === "development"
     ? process.env.DEV_DB_HOSTNAME
     : process.env.PROD_DB_HOSTNAME;
@@ -19,7 +19,7 @@ const database =
     ? process.env.DEV_DB_NAME
     : process.env.PROD_DB_NAME;
 
-const db = mysql.createConnection({
+export const db = mysql.createConnection({
   host,
   user,
   password,
@@ -27,5 +27,3 @@ const db = mysql.createConnection({
 });
 
 db.connect();
-
-export { mysql, db };

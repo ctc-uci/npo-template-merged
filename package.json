@@ -26,8 +26,14 @@
     "prettier": "3.3.3",
     "typescript-eslint": "^8.1.0"
   },
-  "workspaces": [
-    "client",
-    "server"
-  ]
+  "workspaces": {
+    "packages": [
+      "client",
+      "server"
+    ],
+    "nohoist": [
+      "**/firebase",
+      "**/firebase/**"
+    ]
+  }
 }

@@ -27,4 +27,5 @@ const config = {
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
 };
-export default config;
+
+module.exports = config;

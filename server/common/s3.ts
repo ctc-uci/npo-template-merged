@@ -1,4 +1,4 @@
-// FIXME: keep file only if using s3 file upload
+// TODO: keep file only if using s3 file upload
 
 import crypto from "crypto";
 
