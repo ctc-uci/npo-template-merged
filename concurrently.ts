@@ -24,7 +24,7 @@ const { result } = concurrently(
 );
 
 function success() {
-  console.log("All processes completed successfully.");
+  console.info("All processes completed successfully.");
 }
 
 function failure(err: unknown) {

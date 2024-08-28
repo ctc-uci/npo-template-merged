@@ -9,6 +9,7 @@ import {
   User,
 } from "firebase/auth";
 
+import { backend } from "../backend";
 import { cookieConfig, cookieKeys, setCookie } from "./cookie";
 import { FirebaseUtilParams, FirebaseUtilRedirectParams } from "./types";
 
@@ -54,11 +55,6 @@ const REFRESH_URL = `https://securetoken.googleapis.com/v1/token?key=${
 }`;
 
 export const refreshToken = async () => {
-  const backend = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_HOST,
-    withCredentials: true,
-  });
-
   const currentUser = await getCurrentUser();
 
   if (currentUser) {
@@ -101,7 +97,7 @@ export const createUserInFirebase = async ({
 
     return user.user;
   } catch (error) {
-    console.log(`${error.code}: ${error.message}`);
+    console.info(`${error.code}: ${error.message}`);
     throw error;
   }
 };
@@ -116,7 +112,7 @@ export const logInWithEmailAndPassWord = async ({
     await signInWithEmailAndPassword(auth, email, password);
     navigate(redirect);
   } catch (error) {
-    console.log(`${error.code}: ${error.message}`);
+    console.info(`${error.code}: ${error.message}`);
     throw error;
   }
 };
@@ -152,7 +148,7 @@ export const logout = async ({
       navigate(redirect);
     })
     .catch((error) => {
-      console.log(`${error.code}: ${error.message}`);
+      console.info(`${error.code}: ${error.message}`);
     });
 };
 
