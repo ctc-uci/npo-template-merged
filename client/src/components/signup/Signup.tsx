@@ -21,9 +21,9 @@ import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { useAuthContext } from "../contexts/hooks/useAuthContext";
-import { auth } from "../utils/auth/firebase";
-import { createGoogleUserInFirebase } from "../utils/auth/providers";
+import { useAuthContext } from "../../contexts/hooks/useAuthContext";
+import { auth } from "../../utils/auth/firebase";
+import { createGoogleUserInFirebase } from "../../utils/auth/providers";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -32,7 +32,7 @@ const signupSchema = z.object({
 
 type SignupFormValues = z.infer<typeof signupSchema>;
 
-export const SignupPage = () => {
+export const Signup = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { signup } = useAuthContext();

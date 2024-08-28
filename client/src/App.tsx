@@ -3,12 +3,12 @@ import { Flex } from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import { CatchAll } from "./components/CatchAll";
+import { Dashboard } from "./components/dashboard/Dashboard";
+import { Login } from "./components/login/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Signup } from "./components/signup/Signup";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackendProvider } from "./contexts/BackendContext";
-import { DashboardPage } from "./pages/DashboardPage";
-import { LoginPage } from "./pages/LoginPage";
-import { SignupPage } from "./pages/SignupPage";
 
 const App = () => {
   return (
@@ -27,15 +27,15 @@ const App = () => {
             <Routes>
               <Route
                 path="/login"
-                element={<LoginPage />}
+                element={<Login />}
               />
               <Route
                 path="/signup"
-                element={<SignupPage />}
+                element={<Signup />}
               />
               <Route
                 path="/dashboard"
-                element={<ProtectedRoute element={<DashboardPage />} />}
+                element={<ProtectedRoute element={<Dashboard />} />}
               />
 
               {/* Catch-all route */}

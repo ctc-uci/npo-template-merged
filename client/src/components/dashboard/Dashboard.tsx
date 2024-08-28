@@ -14,11 +14,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useAuthContext } from "../contexts/hooks/useAuthContext";
-import { useBackendContext } from "../contexts/hooks/useBackendContext";
-import { User } from "../types/users";
+import { useAuthContext } from "../../contexts/hooks/useAuthContext";
+import { useBackendContext } from "../../contexts/hooks/useBackendContext";
+import { User } from "../../types/users";
 
-export const DashboardPage = () => {
+export const Dashboard = () => {
   const { logout } = useAuthContext();
   const { backend } = useBackendContext();
 
