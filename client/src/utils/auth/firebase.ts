@@ -2,7 +2,7 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getAuth, User } from "firebase/auth";
 
-import { backend } from "../backend";
+// import { backend } from "../backend";
 import { cookieConfig, cookieKeys, setCookie } from "./cookie";
 
 const firebaseConfig = {
