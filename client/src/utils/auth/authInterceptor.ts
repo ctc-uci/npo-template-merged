@@ -22,11 +22,6 @@ export const authInterceptor = (axiosInstance: AxiosInstance) => {
 
       const { status, data, config } = error.response;
 
-      /**
-       * "invalid access token" may refer to a genuinely invalid access token, or that no token was provided with the request
-       *
-       * @see verifyToken {@link server/src/middleware.ts}
-       */
       if (status === 400 && data === "@verifyToken invalid access token") {
         try {
           await refreshToken();
