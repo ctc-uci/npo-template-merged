@@ -32,7 +32,9 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(verifyToken);
+if (process.env.NODE_ENV === "production") {
+  app.use(verifyToken);
+}
 
 app.use("/", sampleRouter); // TODO: delete sample endpoint
 app.use("/users", userRouter);
