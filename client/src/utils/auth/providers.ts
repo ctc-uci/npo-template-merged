@@ -16,10 +16,10 @@ const googleProvider = new GoogleAuthProvider();
  */
 const patchedSignInWithRedirect = signInWithRedirect;
 
-export async function createFacebookUserInFirebase() {
+export async function authenticateFacebookUser() {
   await patchedSignInWithRedirect(auth, facebookProvider);
 }
 
-export async function createGoogleUserInFirebase() {
+export async function authenticateGoogleUser() {
   await patchedSignInWithRedirect(auth, googleProvider);
 }

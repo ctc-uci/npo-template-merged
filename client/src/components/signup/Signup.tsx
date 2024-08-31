@@ -23,7 +23,7 @@ import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { auth } from "../../utils/auth/firebase";
-import { createGoogleUserInFirebase } from "../../utils/auth/providers";
+import { authenticateGoogleUser } from "../../utils/auth/providers";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -69,7 +69,7 @@ export const Signup = () => {
   };
 
   const handleGoogleSignup = async () => {
-    await createGoogleUserInFirebase({ redirect: "/login", navigate });
+    await authenticateGoogleUser();
   };
 
   useEffect(() => {
