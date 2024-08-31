@@ -21,7 +21,8 @@ import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { auth, logInWithEmailAndPassWord } from "../../utils/auth/firebase";
+import { useAuthContext } from "../../contexts/hooks/useAuthContext";
+import { auth } from "../../utils/auth/firebase";
 import { createGoogleUserInFirebase } from "../../utils/auth/providers";
 
 const signinSchema = z.object({
@@ -35,6 +36,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  const { login } = useAuthContext();
+
   const {
     register,
     handleSubmit,
@@ -46,11 +49,9 @@ export const Login = () => {
 
   const handleLogin = async (data: SigninFormValues) => {
     try {
-      await logInWithEmailAndPassWord({
+      await login({
         email: data.email,
         password: data.password,
-        redirect: "/",
-        navigate,
       });
     } catch (err) {
       const errorCode = err.code;
@@ -93,7 +94,7 @@ export const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-    await createGoogleUserInFirebase({ redirect: "/login", navigate });
+    await createGoogleUserInFirebase();
   };
 
   useEffect(() => {
