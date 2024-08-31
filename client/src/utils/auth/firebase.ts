@@ -51,12 +51,12 @@ export const refreshToken = async () => {
 
   if (currentUser) {
     const refreshToken = currentUser.refreshToken;
-    const {
-      data: { access_token: id_token },
-    } = await axios.post(REFRESH_URL, {
+    const response = await axios.post(REFRESH_URL, {
       grant_type: "refresh_token",
       refresh_token: refreshToken,
     });
+
+    const id_token = response.data.id_token;
 
     // Sets the appropriate cookies after refreshing access token
     setCookie({

@@ -3,11 +3,12 @@ import { Router } from "express";
 import { keysToCamel } from "../common/utils";
 import { admin } from "../config/firebase";
 import { db } from "../db/db-pgp"; // TODO: replace this db with
+import { verifyRole } from "../src/middleware";
 
-export const userRouter = Router();
+export const usersRouter = Router();
 
 // Get all users
-userRouter.get("/", async (req, res) => {
+usersRouter.get("/", async (req, res) => {
   try {
     const users = await db.query(`SELECT * FROM users`);
 
@@ -18,7 +19,7 @@ userRouter.get("/", async (req, res) => {
 });
 
 // Get a user by ID
-userRouter.get("/:firebaseUid", async (req, res) => {
+usersRouter.get("/:firebaseUid", async (req, res) => {
   try {
     const { firebaseUid } = req.params;
 
@@ -33,7 +34,7 @@ userRouter.get("/:firebaseUid", async (req, res) => {
 });
 
 // Delete a user by ID, both in Firebase and NPO DB
-userRouter.delete("/:firebaseUid", async (req, res) => {
+usersRouter.delete("/:firebaseUid", async (req, res) => {
   try {
     const { firebaseUid } = req.params;
 
@@ -51,7 +52,7 @@ userRouter.delete("/:firebaseUid", async (req, res) => {
 });
 
 // Create user
-userRouter.post("/create", async (req, res) => {
+usersRouter.post("/create", async (req, res) => {
   try {
     const { email, firebaseUid } = req.body;
 
@@ -67,7 +68,7 @@ userRouter.post("/create", async (req, res) => {
 });
 
 // Update a user by ID
-userRouter.put("/update", async (req, res) => {
+usersRouter.put("/update", async (req, res) => {
   try {
     const { email, firebaseUid } = req.body;
 
@@ -77,6 +78,18 @@ userRouter.put("/update", async (req, res) => {
     );
 
     res.status(200).json(keysToCamel(user));
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Get all users (as admin)
+usersRouter.get("/admin/all", verifyRole("admin"), async (req, res) => {
+  try {
+    const users = await db.query(`SELECT * FROM users`);
+    console.log("users", users);
+
+    res.status(200).json(keysToCamel(users));
   } catch (err) {
     res.status(400).send(err.message);
   }
