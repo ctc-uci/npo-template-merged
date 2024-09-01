@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import {
   Button,
@@ -22,6 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
+import { useBackendContext } from "../../contexts/hooks/useBackendContext";
 import { auth } from "../../utils/auth/firebase";
 import { authenticateGoogleUser } from "../../utils/auth/providers";
 
@@ -37,6 +38,7 @@ export const Login = () => {
   const toast = useToast();
 
   const { login } = useAuthContext();
+  const { backend } = useBackendContext();
 
   const {
     register,
@@ -46,6 +48,18 @@ export const Login = () => {
     resolver: zodResolver(signinSchema),
     mode: "onBlur",
   });
+
+  const toastLoginError = useCallback(
+    (msg: string) => {
+      toast({
+        title: "An error occurred while signing in",
+        description: msg,
+        status: "error",
+        variant: "subtle",
+      });
+    },
+    [toast]
+  );
 
   const handleLogin = async (data: SigninFormValues) => {
     try {
@@ -57,38 +71,29 @@ export const Login = () => {
       const errorCode = err.code;
       const firebaseErrorMsg = err.message;
 
-      const showSigninError = (msg: string) => {
-        toast({
-          title: "An error occurred while signing in",
-          description: msg,
-          status: "error",
-          variant: "subtle",
-        });
-      };
-
       switch (errorCode) {
         case "auth/wrong-password":
         case "auth/invalid-credential":
         case "auth/invalid-email":
         case "auth/user-not-found":
-          showSigninError(
+          toastLoginError(
             "Email address or password does not match our records!"
           );
           break;
         case "auth/unverified-email":
-          showSigninError("Please verify your email address.");
+          toastLoginError("Please verify your email address.");
           break;
         case "auth/user-disabled":
-          showSigninError("This account has been disabled.");
+          toastLoginError("This account has been disabled.");
           break;
         case "auth/too-many-requests":
-          showSigninError("Too many attempts. Please try again later.");
+          toastLoginError("Too many attempts. Please try again later.");
           break;
         case "auth/user-signed-out":
-          showSigninError("You have been signed out. Please sign in again.");
+          toastLoginError("You have been signed out. Please sign in again.");
           break;
         default:
-          showSigninError(firebaseErrorMsg);
+          toastLoginError(firebaseErrorMsg);
       }
     }
   };
@@ -103,6 +108,24 @@ export const Login = () => {
         const result = await getRedirectResult(auth);
 
         if (result) {
+          const response = await backend.get(`/users/${result.user.uid}`);
+          if (response.data.length === 0) {
+            try {
+              await backend.post("/users/create", {
+                email: result.user.email,
+                firebaseUid: result.user.uid,
+              });
+            } catch (e) {
+              await backend.delete(`/users/${result.user.uid}`);
+
+              return toast({
+                title: "An error occurred",
+                description: `Account was not created: ${e.message}`,
+                status: "error",
+              });
+            }
+          }
+
           navigate("/dashboard");
         }
       } catch (error) {
@@ -110,7 +133,7 @@ export const Login = () => {
       }
     };
     handleRedirectResult();
-  }, [navigate]);
+  }, [backend, navigate, toast]);
 
   return (
     <VStack

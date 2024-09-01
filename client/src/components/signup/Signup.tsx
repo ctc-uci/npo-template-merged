@@ -22,6 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
+import { useBackendContext } from "../../contexts/hooks/useBackendContext";
 import { auth } from "../../utils/auth/firebase";
 import { authenticateGoogleUser } from "../../utils/auth/providers";
 
@@ -36,6 +37,7 @@ export const Signup = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { signup } = useAuthContext();
+  const { backend } = useBackendContext();
 
   const {
     register,
@@ -78,6 +80,24 @@ export const Signup = () => {
         const result = await getRedirectResult(auth);
 
         if (result) {
+          const response = await backend.get(`/users/${result.user.uid}`);
+          if (response.data.length === 0) {
+            try {
+              await backend.post("/users/create", {
+                email: result.user.email,
+                firebaseUid: result.user.uid,
+              });
+            } catch (e) {
+              await backend.delete(`/users/${result.user.uid}`);
+
+              return toast({
+                title: "An error occurred",
+                description: `Account was not created: ${e.message}`,
+                status: "error",
+              });
+            }
+          }
+
           navigate("/dashboard");
         }
       } catch (error) {
@@ -85,7 +105,7 @@ export const Signup = () => {
       }
     };
     handleRedirectResult();
-  }, [navigate]);
+  }, [backend, navigate, toast]);
 
   return (
     <VStack

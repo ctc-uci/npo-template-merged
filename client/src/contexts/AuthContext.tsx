@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../utils/auth/firebase";
+import { useBackendContext } from "./hooks/useBackendContext";
 
 interface AuthContextProps {
   currentUser: User | null;
@@ -29,15 +30,28 @@ interface EmailPassword {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { backend } = useBackendContext();
+
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = ({ email, password }: EmailPassword) => {
+  const signup = async ({ email, password }: EmailPassword) => {
     if (currentUser) {
       signOut(auth);
     }
 
-    return createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    await backend.post("/users/create", {
+      email: email,
+      firebaseUid: userCredential.user.uid,
+    });
+
+    return userCredential;
   };
 
   const login = ({ email, password }: EmailPassword) => {

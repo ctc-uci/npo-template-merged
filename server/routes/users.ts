@@ -38,9 +38,7 @@ usersRouter.delete("/:firebaseUid", async (req, res) => {
   try {
     const { firebaseUid } = req.params;
 
-    // Firebase delete
     await admin.auth().deleteUser(firebaseUid);
-    // DB delete
     const user = await db.query("DELETE FROM users WHERE firebase_uid = $1", [
       firebaseUid,
     ]);
