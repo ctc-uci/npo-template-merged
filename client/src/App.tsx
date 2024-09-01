@@ -1,6 +1,7 @@
 import { CookiesProvider } from "react-cookie";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
+import { Admin } from "./components/admin/Admin";
 import { CatchAll } from "./components/CatchAll";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { Login } from "./components/login/Login";
@@ -28,10 +29,14 @@ const App = () => {
                 />
                 <Route
                   path="/dashboard"
+                  element={<ProtectedRoute element={<Dashboard />} />}
+                />
+                <Route
+                  path="/admin"
                   element={
                     <ProtectedRoute
-                      element={<Dashboard />}
-                      allowedRoles={"admin"}
+                      element={<Admin />}
+                      allowedRoles={["admin"]}
                     />
                   }
                 />

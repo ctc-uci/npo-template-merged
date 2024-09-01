@@ -17,12 +17,14 @@ import {
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
+import { useRoleContext } from "../../contexts/hooks/useRoleContext";
 import { User } from "../../types/user";
 import { RoleSelect } from "./RoleSelect";
 
 export const Dashboard = () => {
   const { logout, currentUser } = useAuthContext();
   const { backend } = useBackendContext();
+  const { role } = useRoleContext();
 
   const [users, setUsers] = useState<User[] | undefined>();
 
@@ -74,7 +76,10 @@ export const Dashboard = () => {
                     <Td>{user.email}</Td>
                     <Td>{user.firebaseUid}</Td>
                     <Td>
-                      <RoleSelect user={user} />
+                      <RoleSelect
+                        user={user}
+                        disabled={role !== "admin"}
+                      />
                     </Td>
                   </Tr>
                 ))

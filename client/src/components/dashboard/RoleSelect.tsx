@@ -5,7 +5,12 @@ import { Select, Spinner, useToast } from "@chakra-ui/react";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
 import { User } from "../../types/user";
 
-export const RoleSelect = ({ user }: { user: User }) => {
+interface RoleSelectProps {
+  user: User;
+  disabled?: boolean;
+}
+
+export const RoleSelect = ({ user, disabled = true }: RoleSelectProps) => {
   const { backend } = useBackendContext();
   const toast = useToast();
 
@@ -55,7 +60,7 @@ export const RoleSelect = ({ user }: { user: User }) => {
       placeholder="Select role"
       value={role}
       onChange={handleChangeRole}
-      disabled={loading}
+      disabled={loading || disabled}
       icon={loading ? <Spinner size={"xs"} /> : undefined}
     >
       <option value="user">User</option>
