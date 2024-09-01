@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getRedirectResult } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +22,6 @@ import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { auth } from "../../utils/auth/firebase";
 import { authenticateGoogleUser } from "../../utils/auth/providers";
 
 const signupSchema = z.object({
@@ -36,7 +34,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export const Signup = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { signup } = useAuthContext();
+  const { signup, handleRedirectResult } = useAuthContext();
   const { backend } = useBackendContext();
 
   const {
@@ -75,37 +73,8 @@ export const Signup = () => {
   };
 
   useEffect(() => {
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-
-        if (result) {
-          const response = await backend.get(`/users/${result.user.uid}`);
-          if (response.data.length === 0) {
-            try {
-              await backend.post("/users/create", {
-                email: result.user.email,
-                firebaseUid: result.user.uid,
-              });
-            } catch (e) {
-              await backend.delete(`/users/${result.user.uid}`);
-
-              return toast({
-                title: "An error occurred",
-                description: `Account was not created: ${e.message}`,
-                status: "error",
-              });
-            }
-          }
-
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.error("Redirect result error:", error);
-      }
-    };
-    handleRedirectResult();
-  }, [backend, navigate, toast]);
+    handleRedirectResult(backend, navigate, toast);
+  }, [backend, handleRedirectResult, navigate, toast]);
 
   return (
     <VStack
