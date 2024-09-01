@@ -7,7 +7,9 @@ interface CookieConfig {
   domain?: string;
 }
 
-// https://www.npmjs.com/package/react-cookie
+/**
+ * @see {@link https://www.npmjs.com/package/react-cookie}
+ */
 const cookieConfig: CookieConfig = {
   maxAge: 3600,
   path: "/",
