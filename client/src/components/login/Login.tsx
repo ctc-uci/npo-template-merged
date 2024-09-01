@@ -44,7 +44,7 @@ export const Login = () => {
     formState: { errors },
   } = useForm<SigninFormValues>({
     resolver: zodResolver(signinSchema),
-    delayError: 750,
+    mode: "onBlur",
   });
 
   const handleLogin = async (data: SigninFormValues) => {
@@ -134,7 +134,9 @@ export const Login = () => {
                 type="email"
                 size={"lg"}
                 {...register("email")}
+                name="email"
                 isRequired
+                autoComplete="email"
               />
             </Center>
             <FormErrorMessage>
@@ -148,7 +150,9 @@ export const Login = () => {
                 type="password"
                 size={"lg"}
                 {...register("password")}
+                name="password"
                 isRequired
+                autoComplete="current-password"
               />
             </Center>
             <FormErrorMessage>
@@ -166,6 +170,7 @@ export const Login = () => {
             type="submit"
             size={"lg"}
             sx={{ width: "100%" }}
+            isDisabled={Object.keys(errors).length > 0}
           >
             Login
           </Button>
