@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
+import { Spinner } from "@chakra-ui/react";
+
 import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -67,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{ currentUser, signup, login, logout, resetPassword }}
     >
-      {!loading && children}
+      {loading ? <Spinner /> : children}
     </AuthContext.Provider>
   );
 };

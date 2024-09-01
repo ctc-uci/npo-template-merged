@@ -68,7 +68,6 @@ export const verifyRole = (requiredRole: string | string[]) => {
           .send(`@verifyRole invalid role (required: ${requiredRole})`);
       }
     } catch (_err) {
-      console.log(_err);
       res.status(401).send("@verifyRole could not verify role");
     }
   };

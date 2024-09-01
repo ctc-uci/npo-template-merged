@@ -1,24 +1,25 @@
-// import { useEffect, useState } from "react";
-
 import { Navigate } from "react-router-dom";
 
 import { useAuthContext } from "../contexts/hooks/useAuthContext";
+import { useRoleContext } from "../contexts/hooks/useRoleContext";
 
 interface ProtectedRouteProps {
   element: JSX.Element;
+  allowedRoles?: string | string[];
 }
 
-export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  element,
+  allowedRoles,
+}: ProtectedRouteProps) => {
   const { currentUser } = useAuthContext();
-  // const [isLoading, setIsLoading] = useState(true);
+  const { role } = useRoleContext();
 
-  // useEffect(() => {
-  //   setIsLoading(false);
-  // }, []);
+  const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
-
-  return currentUser ? element : <Navigate to={"/login"} />;
+  return currentUser && (roles.includes(role) || role === "admin") ? (
+    element
+  ) : (
+    <Navigate to={"/login"} />
+  );
 };

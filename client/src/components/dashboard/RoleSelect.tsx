@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { Select, Spinner, useToast } from "@chakra-ui/react";
 
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { User } from "../../types/users";
+import { User } from "../../types/user";
 
 export const RoleSelect = ({ user }: { user: User }) => {
   const { backend } = useBackendContext();

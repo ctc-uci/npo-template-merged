@@ -87,7 +87,6 @@ usersRouter.put("/update", async (req, res) => {
 usersRouter.get("/admin/all", verifyRole("admin"), async (req, res) => {
   try {
     const users = await db.query(`SELECT * FROM users`);
-    console.log("users", users);
 
     res.status(200).json(keysToCamel(users));
   } catch (err) {

@@ -10,44 +10,52 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Signup } from "./components/signup/Signup";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackendProvider } from "./contexts/BackendContext";
+import { RoleProvider } from "./contexts/RoleContext";
 
 const App = () => {
   return (
     <CookiesProvider>
       <BackendProvider>
         <AuthProvider>
-          <Flex
-            sx={{
-              flexDirection: "column",
-              backgroundColor: "#F9F8F7",
-              padding: 4,
-              minHeight: "100vh",
-              flexGrow: 1,
-            }}
-          >
-            <Router>
-              <Routes>
-                <Route
-                  path="/login"
-                  element={<Login />}
-                />
-                <Route
-                  path="/signup"
-                  element={<Signup />}
-                />
-                <Route
-                  path="/dashboard"
-                  element={<ProtectedRoute element={<Dashboard />} />}
-                />
+          <RoleProvider>
+            <Flex
+              sx={{
+                flexDirection: "column",
+                backgroundColor: "#F9F8F7",
+                padding: 4,
+                minHeight: "100vh",
+                flexGrow: 1,
+              }}
+            >
+              <Router>
+                <Routes>
+                  <Route
+                    path="/login"
+                    element={<Login />}
+                  />
+                  <Route
+                    path="/signup"
+                    element={<Signup />}
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute
+                        element={<Dashboard />}
+                        allowedRoles={"admin"}
+                      />
+                    }
+                  />
 
-                {/* Catch-all route */}
-                <Route
-                  path="*"
-                  element={<ProtectedRoute element={<CatchAll />} />}
-                />
-              </Routes>
-            </Router>
-          </Flex>
+                  {/* Catch-all route */}
+                  <Route
+                    path="*"
+                    element={<ProtectedRoute element={<CatchAll />} />}
+                  />
+                </Routes>
+              </Router>
+            </Flex>
+          </RoleProvider>
         </AuthProvider>
       </BackendProvider>
     </CookiesProvider>

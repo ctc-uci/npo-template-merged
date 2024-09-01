@@ -17,7 +17,7 @@ import {
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { User } from "../../types/users";
+import { User } from "../../types/user";
 import { RoleSelect } from "./RoleSelect";
 
 export const Dashboard = () => {
