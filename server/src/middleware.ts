@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import type { DecodedIdToken } from "firebase-admin/auth";
 
 import { admin } from "../config/firebase";
+import { db } from "../db/db-pgp";
 
 /**
  * Verifies the access token attached to the request's cookies.
@@ -33,16 +34,33 @@ export const verifyToken = async (
   }
 };
 
-export const verifyRole = (requiredRole: string) => {
+/**
+ * A higher order function returning a middleware that protects routes based on the user's role.
+ * The role "admin" can access all routes
+ *
+ * @param requiredRole a list of roles that can use this route
+ */
+export const verifyRole = (requiredRole: string | string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { cookies } = req;
+      const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
 
-      const claims: DecodedIdToken =
+      if (!cookies.accessToken) {
+        return res.status(400).send("@verifyToken invalid access token");
+      }
+
+      const decodedToken: DecodedIdToken =
         res.locals.decodedToken ??
         (await admin.auth().verifyIdToken(cookies.accessToken));
 
-      if (claims[requiredRole] === true) {
+      const users = await db.query(
+        "SELECT * FROM users WHERE firebase_uid = $1 LIMIT 1",
+        [decodedToken.uid]
+      );
+
+      // admins should be allowed to access all routes
+      if (roles.includes(users.at(0).role) || users.at(0).role === "admin") {
         next();
       } else {
         res

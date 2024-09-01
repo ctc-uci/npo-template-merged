@@ -8,7 +8,7 @@ interface CookieConfig {
 }
 
 // https://www.npmjs.com/package/react-cookie
-export const cookieConfig: CookieConfig = {
+const cookieConfig: CookieConfig = {
   maxAge: 3600,
   path: "/",
   secure: document.location.protocol === "https:",
@@ -16,17 +16,16 @@ export const cookieConfig: CookieConfig = {
 
 export const cookieKeys = {
   ACCESS_TOKEN: "accessToken",
-  ROLE: "role",
 };
 
 export const setCookie = ({
   key,
   value,
-  config,
+  config = cookieConfig,
 }: {
   key: string;
   value: string;
-  config: CookieConfig;
+  config?: CookieConfig;
 }) => {
   let cookie = `${key}=${value}; max-age=${config.maxAge}; path=${config.path}`;
 

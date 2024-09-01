@@ -10,7 +10,7 @@ export const usersRouter = Router();
 // Get all users
 usersRouter.get("/", async (req, res) => {
   try {
-    const users = await db.query(`SELECT * FROM users`);
+    const users = await db.query(`SELECT * FROM users ORDER BY id ASC`);
 
     res.status(200).json(keysToCamel(users));
   } catch (err) {
@@ -90,6 +90,22 @@ usersRouter.get("/admin/all", verifyRole("admin"), async (req, res) => {
     console.log("users", users);
 
     res.status(200).json(keysToCamel(users));
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Update a user's role
+usersRouter.put("/update/set-role", verifyRole("admin"), async (req, res) => {
+  try {
+    const { role, firebaseUid } = req.body;
+
+    const user = await db.query(
+      "UPDATE users SET role = $1 WHERE firebase_uid = $2 RETURNING *",
+      [role, firebaseUid]
+    );
+
+    res.status(200).json(keysToCamel(user));
   } catch (err) {
     res.status(400).send(err.message);
   }

@@ -2,8 +2,7 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getAuth, User } from "firebase/auth";
 
-// import { backend } from "../backend";
-import { cookieConfig, cookieKeys, setCookie } from "./cookie";
+import { cookieKeys, setCookie } from "./cookie";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
@@ -62,15 +61,7 @@ export const refreshToken = async () => {
     setCookie({
       key: cookieKeys.ACCESS_TOKEN,
       value: id_token,
-      config: cookieConfig,
     });
-
-    // const user = await backend.get(`/users/${auth.currentUser?.uid}`);
-    // setCookie({
-    //   key: cookieKeys.ROLE,
-    //   value: user.data[0].type,
-    //   config: cookieConfig,
-    // });
 
     return { accessToken: id_token };
   }
