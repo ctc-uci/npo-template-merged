@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import {
   Button,
@@ -15,14 +15,13 @@ import {
 } from "@chakra-ui/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getRedirectResult } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
-import { auth } from "../../utils/auth/firebase";
+import { useBackendContext } from "../../contexts/hooks/useBackendContext";
 import { authenticateGoogleUser } from "../../utils/auth/providers";
 
 const signinSchema = z.object({
@@ -36,7 +35,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { login } = useAuthContext();
+  const { login, handleRedirectResult } = useAuthContext();
+  const { backend } = useBackendContext();
 
   const {
     register,
@@ -44,8 +44,20 @@ export const Login = () => {
     formState: { errors },
   } = useForm<SigninFormValues>({
     resolver: zodResolver(signinSchema),
-    delayError: 750,
+    mode: "onBlur",
   });
+
+  const toastLoginError = useCallback(
+    (msg: string) => {
+      toast({
+        title: "An error occurred while signing in",
+        description: msg,
+        status: "error",
+        variant: "subtle",
+      });
+    },
+    [toast]
+  );
 
   const handleLogin = async (data: SigninFormValues) => {
     try {
@@ -57,38 +69,29 @@ export const Login = () => {
       const errorCode = err.code;
       const firebaseErrorMsg = err.message;
 
-      const showSigninError = (msg: string) => {
-        toast({
-          title: "An error occurred while signing in",
-          description: msg,
-          status: "error",
-          variant: "subtle",
-        });
-      };
-
       switch (errorCode) {
         case "auth/wrong-password":
         case "auth/invalid-credential":
         case "auth/invalid-email":
         case "auth/user-not-found":
-          showSigninError(
+          toastLoginError(
             "Email address or password does not match our records!"
           );
           break;
         case "auth/unverified-email":
-          showSigninError("Please verify your email address.");
+          toastLoginError("Please verify your email address.");
           break;
         case "auth/user-disabled":
-          showSigninError("This account has been disabled.");
+          toastLoginError("This account has been disabled.");
           break;
         case "auth/too-many-requests":
-          showSigninError("Too many attempts. Please try again later.");
+          toastLoginError("Too many attempts. Please try again later.");
           break;
         case "auth/user-signed-out":
-          showSigninError("You have been signed out. Please sign in again.");
+          toastLoginError("You have been signed out. Please sign in again.");
           break;
         default:
-          showSigninError(firebaseErrorMsg);
+          toastLoginError(firebaseErrorMsg);
       }
     }
   };
@@ -98,19 +101,8 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-
-        if (result) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.error("Redirect result error:", error);
-      }
-    };
-    handleRedirectResult();
-  }, [navigate]);
+    handleRedirectResult(backend, navigate, toast);
+  }, [backend, handleRedirectResult, navigate, toast]);
 
   return (
     <VStack
@@ -134,7 +126,9 @@ export const Login = () => {
                 type="email"
                 size={"lg"}
                 {...register("email")}
+                name="email"
                 isRequired
+                autoComplete="email"
               />
             </Center>
             <FormErrorMessage>
@@ -148,7 +142,9 @@ export const Login = () => {
                 type="password"
                 size={"lg"}
                 {...register("password")}
+                name="password"
                 isRequired
+                autoComplete="current-password"
               />
             </Center>
             <FormErrorMessage>
@@ -166,6 +162,7 @@ export const Login = () => {
             type="submit"
             size={"lg"}
             sx={{ width: "100%" }}
+            isDisabled={Object.keys(errors).length > 0}
           >
             Login
           </Button>

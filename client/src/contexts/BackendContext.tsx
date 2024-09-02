@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from "axios";
 
 import { authInterceptor } from "../utils/auth/authInterceptor";
 
-const baseURL = import.meta.env.VITE_DEV_BACKEND_HOSTNAME;
+const baseURL = import.meta.env.VITE_BACKEND_HOSTNAME;
 
 interface BackendContextProps {
   backend: AxiosInstance;

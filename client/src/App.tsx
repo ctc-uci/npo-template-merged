@@ -1,7 +1,7 @@
-import { Flex } from "@chakra-ui/react";
-
+import { CookiesProvider } from "react-cookie";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
+import { Admin } from "./components/admin/Admin";
 import { CatchAll } from "./components/CatchAll";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { Login } from "./components/login/Login";
@@ -9,45 +9,48 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Signup } from "./components/signup/Signup";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackendProvider } from "./contexts/BackendContext";
+import { RoleProvider } from "./contexts/RoleContext";
 
 const App = () => {
   return (
-    <BackendProvider>
-      <AuthProvider>
-        <Flex
-          sx={{
-            flexDirection: "column",
-            backgroundColor: "#F9F8F7",
-            padding: 4,
-            minHeight: "100vh",
-            flexGrow: 1,
-          }}
-        >
-          <Router>
-            <Routes>
-              <Route
-                path="/login"
-                element={<Login />}
-              />
-              <Route
-                path="/signup"
-                element={<Signup />}
-              />
-              <Route
-                path="/dashboard"
-                element={<ProtectedRoute element={<Dashboard />} />}
-              />
+    <CookiesProvider>
+      <BackendProvider>
+        <AuthProvider>
+          <RoleProvider>
+            <Router>
+              <Routes>
+                <Route
+                  path="/login"
+                  element={<Login />}
+                />
+                <Route
+                  path="/signup"
+                  element={<Signup />}
+                />
+                <Route
+                  path="/dashboard"
+                  element={<ProtectedRoute element={<Dashboard />} />}
+                />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute
+                      element={<Admin />}
+                      allowedRoles={["admin"]}
+                    />
+                  }
+                />
 
-              {/* Catch-all route */}
-              <Route
-                path="*"
-                element={<ProtectedRoute element={<CatchAll />} />}
-              />
-            </Routes>
-          </Router>
-        </Flex>
-      </AuthProvider>
-    </BackendProvider>
+                <Route
+                  path="*"
+                  element={<ProtectedRoute element={<CatchAll />} />}
+                />
+              </Routes>
+            </Router>
+          </RoleProvider>
+        </AuthProvider>
+      </BackendProvider>
+    </CookiesProvider>
   );
 };
 

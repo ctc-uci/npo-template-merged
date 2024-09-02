@@ -15,14 +15,13 @@ import {
 } from "@chakra-ui/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getRedirectResult } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
-import { auth } from "../../utils/auth/firebase";
+import { useBackendContext } from "../../contexts/hooks/useBackendContext";
 import { authenticateGoogleUser } from "../../utils/auth/providers";
 
 const signupSchema = z.object({
@@ -35,7 +34,8 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export const Signup = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { signup } = useAuthContext();
+  const { signup, handleRedirectResult } = useAuthContext();
+  const { backend } = useBackendContext();
 
   const {
     register,
@@ -43,7 +43,7 @@ export const Signup = () => {
     formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
-    delayError: 750,
+    mode: "onBlur",
   });
 
   const handleSignup = async (data: SignupFormValues) => {
@@ -73,19 +73,8 @@ export const Signup = () => {
   };
 
   useEffect(() => {
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-
-        if (result) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.error("Redirect result error:", error);
-      }
-    };
-    handleRedirectResult();
-  }, [navigate]);
+    handleRedirectResult(backend, navigate, toast);
+  }, [backend, handleRedirectResult, navigate, toast]);
 
   return (
     <VStack
@@ -109,7 +98,9 @@ export const Signup = () => {
                 type="email"
                 size={"lg"}
                 {...register("email")}
+                name="email"
                 isRequired
+                autoComplete="email"
               />
             </Center>
             <FormErrorMessage>
@@ -123,7 +114,9 @@ export const Signup = () => {
                 type="password"
                 size={"lg"}
                 {...register("password")}
+                name="password"
                 isRequired
+                autoComplete="password"
               />
             </Center>
             <FormErrorMessage>
@@ -141,6 +134,7 @@ export const Signup = () => {
             type="submit"
             size={"lg"}
             sx={{ width: "100%" }}
+            isDisabled={Object.keys(errors).length > 0}
           >
             Signup
           </Button>

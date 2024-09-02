@@ -3,13 +3,14 @@ import { Router } from "express";
 import { keysToCamel } from "../common/utils";
 import { admin } from "../config/firebase";
 import { db } from "../db/db-pgp"; // TODO: replace this db with
+import { verifyRole } from "../src/middleware";
 
-export const userRouter = Router();
+export const usersRouter = Router();
 
 // Get all users
-userRouter.get("/", async (req, res) => {
+usersRouter.get("/", async (req, res) => {
   try {
-    const users = await db.query(`SELECT * FROM users`);
+    const users = await db.query(`SELECT * FROM users ORDER BY id ASC`);
 
     res.status(200).json(keysToCamel(users));
   } catch (err) {
@@ -18,7 +19,7 @@ userRouter.get("/", async (req, res) => {
 });
 
 // Get a user by ID
-userRouter.get("/:firebaseUid", async (req, res) => {
+usersRouter.get("/:firebaseUid", async (req, res) => {
   try {
     const { firebaseUid } = req.params;
 
@@ -33,13 +34,11 @@ userRouter.get("/:firebaseUid", async (req, res) => {
 });
 
 // Delete a user by ID, both in Firebase and NPO DB
-userRouter.delete("/:firebaseUid", async (req, res) => {
+usersRouter.delete("/:firebaseUid", async (req, res) => {
   try {
     const { firebaseUid } = req.params;
 
-    // Firebase delete
     await admin.auth().deleteUser(firebaseUid);
-    // DB delete
     const user = await db.query("DELETE FROM users WHERE firebase_uid = $1", [
       firebaseUid,
     ]);
@@ -51,7 +50,7 @@ userRouter.delete("/:firebaseUid", async (req, res) => {
 });
 
 // Create user
-userRouter.post("/create", async (req, res) => {
+usersRouter.post("/create", async (req, res) => {
   try {
     const { email, firebaseUid } = req.body;
 
@@ -67,13 +66,40 @@ userRouter.post("/create", async (req, res) => {
 });
 
 // Update a user by ID
-userRouter.put("/update", async (req, res) => {
+usersRouter.put("/update", async (req, res) => {
   try {
     const { email, firebaseUid } = req.body;
 
     const user = await db.query(
       "UPDATE users SET email = $1 WHERE firebase_uid = $2 RETURNING *",
       [email, firebaseUid]
+    );
+
+    res.status(200).json(keysToCamel(user));
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Get all users (as admin)
+usersRouter.get("/admin/all", verifyRole("admin"), async (req, res) => {
+  try {
+    const users = await db.query(`SELECT * FROM users`);
+
+    res.status(200).json(keysToCamel(users));
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Update a user's role
+usersRouter.put("/update/set-role", verifyRole("admin"), async (req, res) => {
+  try {
+    const { role, firebaseUid } = req.body;
+
+    const user = await db.query(
+      "UPDATE users SET role = $1 WHERE firebase_uid = $2 RETURNING *",
+      [role, firebaseUid]
     );
 
     res.status(200).json(keysToCamel(user));

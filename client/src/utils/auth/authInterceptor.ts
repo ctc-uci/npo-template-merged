@@ -9,6 +9,7 @@ import { refreshToken } from "./firebase";
  * the access token has expired. If the token has expired, it attempts to refresh the token
  * using the `refreshToken` function and retries the original request with the new token.
  *
+ * @see verifyToken {@link server/src/middleware.ts} "@verifyToken invalid access token" may refer to a genuinely invalid access token, or that no token was provided with the request
  */
 export const authInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.response.use(

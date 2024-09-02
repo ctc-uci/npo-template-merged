@@ -8,6 +8,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -16,11 +17,14 @@ import {
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { User } from "../../types/users";
+import { useRoleContext } from "../../contexts/hooks/useRoleContext";
+import { User } from "../../types/user";
+import { RoleSelect } from "./RoleSelect";
 
 export const Dashboard = () => {
-  const { logout } = useAuthContext();
+  const { logout, currentUser } = useAuthContext();
   const { backend } = useBackendContext();
+  const { role } = useRoleContext();
 
   const [users, setUsers] = useState<User[] | undefined>();
 
@@ -44,7 +48,10 @@ export const Dashboard = () => {
     >
       <Heading>Dashboard</Heading>
 
-      <Button onClick={logout}>Sign out</Button>
+      <VStack>
+        <Text> Signed in as {currentUser?.email}</Text>
+        <Button onClick={logout}>Sign out</Button>
+      </VStack>
 
       <TableContainer
         sx={{
@@ -58,6 +65,7 @@ export const Dashboard = () => {
               <Th>Id</Th>
               <Th>Email</Th>
               <Th>FirebaseUid</Th>
+              <Th>Role</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -67,6 +75,12 @@ export const Dashboard = () => {
                     <Td>{user.id}</Td>
                     <Td>{user.email}</Td>
                     <Td>{user.firebaseUid}</Td>
+                    <Td>
+                      <RoleSelect
+                        user={user}
+                        disabled={role !== "admin"}
+                      />
+                    </Td>
                   </Tr>
                 ))
               : null}
