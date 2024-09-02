@@ -4,7 +4,7 @@ import { Spinner } from "@chakra-ui/react";
 
 import type { User as DbUser, User } from "../types/user";
 import { auth } from "../utils/auth/firebase";
-import { backend } from "../utils/backend";
+import { useBackendContext } from "./hooks/useBackendContext";
 
 type DbUserRole = DbUser["role"];
 
@@ -16,6 +16,8 @@ interface RoleContextProps {
 export const RoleContext = createContext<RoleContextProps | null>(null);
 
 export const RoleProvider = ({ children }: { children: ReactNode }) => {
+  const { backend } = useBackendContext();
+
   const [role, setRole] = useState<DbUserRole | undefined>();
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +40,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [backend]);
 
   return (
     <RoleContext.Provider value={{ role, loading }}>
