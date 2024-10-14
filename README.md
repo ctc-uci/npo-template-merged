@@ -7,9 +7,12 @@ A simple React, Vite, and Node.js monorepo built with Yarn workspaces. Uses Fire
 ### 1. Clone this repository, then `cd` into the directory
 
 ```shell
-  > git clone https://github.com/ctc-uci/YOUR-REPO.git
-  > cd YOUR-REPO
+  git clone https://github.com/ctc-uci/npo-template-merged.git
+  cd npo-template-merged
 ```
+
+> [!WARNING]
+> If you're a developer, you probably won't be cloning `npo-template-merged`. Replace `npo-template-merged` with the name of your team's repository.
 
 > [!TIP]
 > `npo-template-merged` is a template repository. [You can create a copy through Github.](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
@@ -44,10 +47,10 @@ Both the `client` and `server` directories have their own `env.local` and `.env`
 
 **Client**
 
-The `client` `.env` consists primarily of your Firebase secrets. An example is provided in `/client/.env.example`. Copy the contents into a new file named `.env`, then fill in the keys with the appropriate values.
+The `client` `.env` consists primarily of your Firebase secrets. An example is provided in `/client/.env.example`. Copy the contents into a new file named `.env.local`, then fill in the keys with the appropriate values.
 
 > [!TIP]
-> The code block below is an example of what your `.env` should (partially) look like.
+> The code block below is an example of what your `.env.local` should (partially) look like.
 
 ```shell
 VITE_FIREBASE_APIKEY=my-api-key
@@ -63,7 +66,6 @@ VITE_FIREBASE_PROJECTID=my-project-id
 + VITE_FIREBASE_AUTHDOMAIN=localhost:3000
 - VITE_FIREBASE_AUTHDOMAIN=my-project.firebaseapp.com
 ```
-Examples of what your secrets should look like are provided in `client/.env.example` and `server/.env.example`.
 
 **Server**
 
