@@ -1,12 +1,14 @@
-# npo-template-merged
+# NPO Template Merged
 
-## Quickstart
+A simple React, Vite, and Node.js monorepo built with Yarn workspaces. Uses Firebase for authentication, Chakra UI for components, and your choice of database (i.e. Postgres).
+
+## Getting Started
 
 ### 1. Clone this repository, then `cd` into the directory
 
 ```shell
-  > git clone https://github.com/ctc-uci/npo-template-merged.git
-  > cd npo-template-merged
+  > git clone https://github.com/ctc-uci/YOUR-REPO.git
+  > cd YOUR-REPO
 ```
 
 > [!TIP]
@@ -40,20 +42,37 @@ Now, install packages:
 
 Both the `client` and `server` directories have their own `env.local` and `.env` files, respectively. If you're a general member, these secrets should be provided to you by your tech leads. 
 
-For this quickstart, `client` secrets consist mostly of Firebase secrets, which can be created in the [Firebase console](https://console.firebase.google.com/). `server` secrets consist mostly of database connection strings and can be created with your choice of database provider (in CTC's case, usually AWS).
+**Client**
 
+The `client` `.env` consists primarily of your Firebase secrets. An example is provided in `/client/.env.example`. Copy the contents into a new file named `.env`, then fill in the keys with the appropriate values.
+
+> [!TIP]
+> The code block below is an example of what your `.env` should (partially) look like.
+
+```shell
+VITE_FIREBASE_APIKEY=my-api-key
+VITE_FIREBASE_AUTHDOMAIN=localhost:3000
+VITE_FIREBASE_PROJECTID=my-project-id
+...
+```
+
+> [!CAUTION]
+> Due to recent changes to 3rd party cookies, `VITE_FIREBASE_AUTHDOMAIN` should point to where you're currently running your project (whether that be locally or deployed), and **not** the typically Firebase-provided auth domain. 
+
+```shell
++ VITE_FIREBASE_AUTHDOMAIN=localhost:3000
+- VITE_FIREBASE_AUTHDOMAIN=my-project.firebaseapp.com
+```
 Examples of what your secrets should look like are provided in `client/.env.example` and `server/.env.example`.
+
+**Server**
+
+The `server` `.env` consists primarily of your database secrets. An example is provided in `/server/.env.example`. Copy the contents into a new file named `.env`, then fill in the keys with the appropriate values.
 
 ### 4. Start developing!
 
 Start the development server by running this command:
 
 ```shell
-  > yarn dev
+  yarn run dev
 ```
-
-## Client
-The frontend repository is built with Vite, React, and Typescript.
-
-## Server
-The backend respository is built with Node.js, Express.js, and your choice of database (SQL/NoSQL). This template uses PostgreSQL by default, but both MySQL and MongoDB are available as plug-and-play options as well.
