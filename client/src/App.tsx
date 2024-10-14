@@ -1,5 +1,10 @@
 import { CookiesProvider } from "react-cookie";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 
 import { Admin } from "./components/admin/Admin";
 import { CatchAll } from "./components/CatchAll";
@@ -41,6 +46,15 @@ const App = () => {
                   }
                 />
 
+                <Route
+                  path="/"
+                  element={
+                    <Navigate
+                      to="/login"
+                      replace
+                    />
+                  }
+                />
                 <Route
                   path="*"
                   element={<ProtectedRoute element={<CatchAll />} />}

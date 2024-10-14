@@ -35,5 +35,10 @@
       "**/firebase",
       "**/firebase/**"
     ]
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "yarn": "^1.22.0",
+    "node": ">=18"
   }
 }
