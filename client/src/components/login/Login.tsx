@@ -65,6 +65,8 @@ export const Login = () => {
         email: data.email,
         password: data.password,
       });
+
+      navigate("/dashboard");
     } catch (err) {
       const errorCode = err.code;
       const firebaseErrorMsg = err.message;

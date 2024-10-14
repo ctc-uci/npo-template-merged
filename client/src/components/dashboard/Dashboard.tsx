@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import {
   Button,
+  Link as ChakraLink,
   Heading,
   Table,
   TableCaption,
@@ -14,6 +15,8 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
+
+import { Link } from "react-router-dom";
 
 import { useAuthContext } from "../../contexts/hooks/useAuthContext";
 import { useBackendContext } from "../../contexts/hooks/useBackendContext";
@@ -49,7 +52,19 @@ export const Dashboard = () => {
       <Heading>Dashboard</Heading>
 
       <VStack>
-        <Text> Signed in as {currentUser?.email}</Text>
+        <Text>
+          Signed in as {currentUser?.email} (
+          {role === "admin" ? "Admin" : "User"})
+        </Text>
+
+        {role === "admin" ? (
+          <ChakraLink
+            as={Link}
+            to={"/admin"}
+          >
+            Go to Admin Page
+          </ChakraLink>
+        ) : null}
         <Button onClick={logout}>Sign out</Button>
       </VStack>
 
