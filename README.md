@@ -43,7 +43,7 @@ Now, install packages:
 
 ### 3. Get environment secrets
 
-Both the `client` and `server` directories have their own `env.local` and `.env` files, respectively. If you're a general member, these secrets should be provided to you by your tech leads. 
+Both the `client` and `server` directories have their own `env.local` and `.env` files, respectively. These secrets should be provided to you by your tech leads. 
 
 **Client**
 
