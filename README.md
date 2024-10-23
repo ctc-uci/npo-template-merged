@@ -19,7 +19,7 @@ A simple React, Vite, and Node.js monorepo built with Yarn workspaces. Uses Fire
 
 ### 2. Install dependencies
 
-Install [Node.js, version 18.20.4)](https://nodejs.org/en/download/package-manager). 
+Install [Node.js, (version 18.20.4)](https://nodejs.org/en/download/package-manager). 
 
 > [!TIP]
 > On MacOS and Linux, installing Node with `nvm` is recommended!
