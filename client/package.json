@@ -7,7 +7,7 @@
   "author": "CTC <ctc@uci.edu>",
   "license": "MIT",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite --port 3000 --host",
     "build": "tsc -b && vite build",
     "lint": "eslint",
     "format": "npx prettier --write .",
