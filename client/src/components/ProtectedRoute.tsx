@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-import { useAuthContext } from "../contexts/hooks/useAuthContext";
-import { useRoleContext } from "../contexts/hooks/useRoleContext";
+import { useAuthContext } from "@/contexts/hooks/useAuthContext";
+import { useRoleContext } from "@/contexts/hooks/useRoleContext";
 
 interface ProtectedRouteProps {
   element: JSX.Element;

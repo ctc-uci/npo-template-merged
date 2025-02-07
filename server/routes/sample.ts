@@ -2,7 +2,7 @@
 
 import express from "express";
 
-import { keysToCamel } from "../common/utils";
+import { keysToCamel } from "@common/utils";
 
 const sampleRouter = express.Router();
 sampleRouter.use(express.json());
