@@ -21,7 +21,13 @@
     "noFallthroughCasesInSwitch": true,
 
     "useUnknownInCatchVariables": false, // https://stackoverflow.com/a/69445095
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+
+    /* Path Aliasing */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src"]
 }
