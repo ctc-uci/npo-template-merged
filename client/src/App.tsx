@@ -1,11 +1,3 @@
-import { CookiesProvider } from "react-cookie";
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
-
 import { Admin } from "@/components/admin/Admin";
 import { CatchAll } from "@/components/CatchAll";
 import { Dashboard } from "@/components/dashboard/Dashboard";
@@ -15,6 +7,13 @@ import { Signup } from "@/components/signup/Signup";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BackendProvider } from "@/contexts/BackendContext";
 import { RoleProvider } from "@/contexts/RoleContext";
+import { CookiesProvider } from "react-cookie";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 
 const App = () => {
   return (
@@ -45,7 +44,6 @@ const App = () => {
                     />
                   }
                 />
-
                 <Route
                   path="/"
                   element={
