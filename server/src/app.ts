@@ -1,12 +1,11 @@
+import { verifyToken } from "@/middleware";
+import { sampleRouter } from "@/routes/sample"; // TODO: delete sample router
+import { usersRouter } from "@/routes/users";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import schedule from "node-schedule"; // TODO: Keep only if scheduling cronjobs
-
-import { sampleRouter } from "@routes/sample"; // TODO: delete sample router
-import { usersRouter } from "@routes/users";
-import { verifyToken } from "@/middleware";
 
 dotenv.config();
 
