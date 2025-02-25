@@ -1,8 +1,7 @@
+import { admin } from "@/config/firebase";
+import { db } from "@/db/db-pgp";
 import type { NextFunction, Request, Response } from "express";
 import type { DecodedIdToken } from "firebase-admin/auth";
-
-import { admin } from "@config/firebase";
-import { db } from "@db/db-pgp";
 
 /**
  * Verifies the access token attached to the request's cookies.
