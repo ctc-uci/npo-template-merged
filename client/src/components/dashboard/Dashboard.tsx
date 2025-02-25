@@ -18,10 +18,10 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { useAuthContext } from "../../contexts/hooks/useAuthContext";
-import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { useRoleContext } from "../../contexts/hooks/useRoleContext";
-import { User } from "../../types/user";
+import { useAuthContext } from "@/contexts/hooks/useAuthContext";
+import { useBackendContext } from "@/contexts/hooks/useBackendContext";
+import { useRoleContext } from "@/contexts/hooks/useRoleContext";
+import { User } from "@/types/user";
 import { RoleSelect } from "./RoleSelect";
 
 export const Dashboard = () => {

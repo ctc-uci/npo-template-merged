@@ -1,9 +1,8 @@
+import { keysToCamel } from "@/common/utils";
+import { admin } from "@/config/firebase";
+import { db } from "@/db/db-pgp"; // TODO: replace this db with
+import { verifyRole } from "@/middleware";
 import { Router } from "express";
-
-import { keysToCamel } from "../common/utils";
-import { admin } from "../config/firebase";
-import { db } from "../db/db-pgp"; // TODO: replace this db with
-import { verifyRole } from "../src/middleware";
 
 export const usersRouter = Router();
 

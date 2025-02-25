@@ -1,8 +1,7 @@
 // TODO: delete sample router file
 
+import { keysToCamel } from "@/common/utils";
 import express from "express";
-
-import { keysToCamel } from "../common/utils";
 
 const sampleRouter = express.Router();
 sampleRouter.use(express.json());

@@ -2,8 +2,8 @@ import { ChangeEvent, useCallback, useState } from "react";
 
 import { Select, Spinner, useToast } from "@chakra-ui/react";
 
-import { useBackendContext } from "../../contexts/hooks/useBackendContext";
-import { User } from "../../types/user";
+import { useBackendContext } from "@/contexts/hooks/useBackendContext";
+import { User } from "@/types/user";
 
 interface RoleSelectProps {
   user: User;
