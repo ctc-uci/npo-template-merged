@@ -38,12 +38,12 @@ jobs:
       - name: Build
         uses: borales/actions-yarn@v4
         with:
-          cmd: build
+          cmd: workspace client build
 
       - name: Deploy
         uses: reggionick/s3-deploy@v4
         with:
-          folder: dist
+          folder: client/dist
           bucket: ${{ secrets.S3_BUCKET }}
           bucket-region: ${{ secrets.S3_BUCKET_REGION }}
           dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
