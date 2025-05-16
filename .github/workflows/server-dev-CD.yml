@@ -5,7 +5,7 @@ name: EC2 Dev Deploy
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   Deploy:
@@ -24,10 +24,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER}@${HOSTNAME} '
 
             #Now we have got the access of EC2 and we will start the deploy .
-            cd ~/npo-backend-template &&
-            git checkout dev &&
+            cd ~/npo-template-merged &&
+            git checkout main &&
             git stash &&
-            git pull origin dev &&
+            git pull origin main &&
             yarn &&
             pm2 restart app.js
           '
