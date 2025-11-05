@@ -23,6 +23,14 @@ export default tseslint.config({
       { allowConstantExport: true },
     ],
     "no-unused-vars": "off",
+    "max-lines": ["error", { max: 1000 }],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "JSXIdentifier[name='div']",
+        message: "Using <div> tags is not allowed. Use semantic HTML elements instead.",
+      },
+    ],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
