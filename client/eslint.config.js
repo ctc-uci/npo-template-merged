@@ -28,11 +28,13 @@ export default tseslint.config({
       "error",
       {
         selector: "JSXIdentifier[name='div']",
-        message: "Using <div> tags is not allowed. Use semantic HTML elements instead.",
+        message:
+          "Using <div> tags is not allowed. Use semantic HTML elements instead.",
       },
     ],
+    "no-duplicate-imports": "error",
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_",
