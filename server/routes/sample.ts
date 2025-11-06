@@ -9,7 +9,7 @@ sampleRouter.use(express.json());
 sampleRouter.get("/", async (req, res) => {
   try {
     // Query database
-    const data = {};
+    const data = { message: "Hello, world!" };
 
     res.status(200).json(keysToCamel(data));
   } catch (err) {

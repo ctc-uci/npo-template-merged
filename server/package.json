@@ -8,7 +8,9 @@
   "author": "CTC <ctc@uci.edu>",
   "license": "MIT",
   "scripts": {
-    "start": "tsx watch --clear-screen=false src/app.ts",
+    "start": "tsx watch --clear-screen=false src/server.ts",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "lint": "eslint",
     "format": "npx prettier --write ."
   },
@@ -40,13 +42,17 @@
     "@types/mysql": "^2.15.26",
     "@types/node-schedule": "^2.1.7",
     "@types/nodemailer": "^6.4.15",
+    "@types/supertest": "^6.0.3",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^8.3.0",
     "globals": "^15.9.0",
     "lint-staged": "^11.2.6",
     "prettier": "^3.3.3",
+    "supertest": "^7.1.4",
     "tsx": "^4.17.0",
     "typescript": "5.5.3",
-    "typescript-eslint": "^8.1.0"
+    "typescript-eslint": "^8.1.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "1"
   }
 }

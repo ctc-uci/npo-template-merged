@@ -16,12 +16,7 @@ const CLIENT_HOSTNAME =
     ? `${process.env.DEV_CLIENT_HOSTNAME}:${process.env.DEV_CLIENT_PORT}`
     : process.env.PROD_CLIENT_HOSTNAME;
 
-const SERVER_PORT =
-  process.env.NODE_ENV === "development"
-    ? process.env.DEV_SERVER_PORT
-    : process.env.PROD_SERVER_PORT;
-
-const app = express();
+export const app = express();
 app.use(
   cors({
     origin: CLIENT_HOSTNAME,
@@ -38,6 +33,5 @@ if (process.env.NODE_ENV === "production") {
 app.use("/", sampleRouter); // TODO: delete sample endpoint
 app.use("/users", usersRouter);
 
-app.listen(SERVER_PORT, () => {
-  console.info(`Server listening on ${SERVER_PORT}`);
-});
+// Listening is moved to server.ts to enable importing app in tests
+export default app;
