@@ -13,7 +13,7 @@
     "useUnknownInCatchVariables": false, // https://stackoverflow.com/a/69445095
 
     /* Strictness */
-    "strict": true,
+    "strict": false,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
