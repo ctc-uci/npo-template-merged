@@ -70,3 +70,34 @@ Start the development server by running this command:
 ```shell
   yarn run dev
 ```
+
+### 5. Run unit tests
+
+We use [Vitetest](https://vitest.dev/) for testing client side code and [Supertest](https://www.npmjs.com/package/supertest) for testing HTTP requests 
+
+
+Create unit tests in the `/server/src/__tests__/` directory (example `_name_.test.js`) 
+
+#### Running individual unit tests
+Example:
+```sh
+cd server
+yarn test sample.test.js
+```
+
+#### Running all unit tests on backend 
+```sh
+yarn test --server # use when testing from root dir
+# OR 
+cd server
+yarn test
+
+```
+
+#### Running all unit tests on frontend 
+```sh
+yarn test --client # use when testing from root dir
+# OR 
+cd client
+yarn test
+```
