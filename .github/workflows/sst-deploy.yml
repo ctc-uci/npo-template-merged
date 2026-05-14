@@ -1,0 +1,77 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SST Deploy — single workflow that replaces the separate client-dev-CD.yml /
+# server-dev-CD.yml workflows with a single `sst deploy` command.
+#
+# What this does:
+#   1. Builds the Vite frontend (client/) with all VITE_* env vars injected
+#      from SST Secrets and uploads it to S3 + invalidates CloudFront.
+#   2. Builds a Docker image from server/Dockerfile, pushes it to ECR, and
+#      updates the ECS Fargate service.
+#   3. Applies any infrastructure changes declared in sst.config.ts.
+#
+# Required GitHub Action Secrets (Settings → Secrets and Variables → Actions):
+#   AWS_ACCESS_KEY_ID       IAM user Access Key ID
+#   AWS_SECRET_ACCESS_KEY   IAM user Secret Access Key
+#
+# The IAM user needs permissions to manage:
+#   CloudFormation, S3, CloudFront, ECR, ECS, IAM, EC2 (VPC/SG)
+#
+# All application secrets (Firebase keys, DB password, etc.) are stored in
+# SST and do NOT need to be added here — they are pulled from SST's secret
+# store at deploy time.
+#
+# Branch strategy:
+#   • Push to `main`  → deploys to the `production` stage
+#   • Manual trigger  → lets you choose the stage (default: production)
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: SST Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "SST stage to deploy (e.g. production, dev)"
+        required: false
+        default: "production"
+
+jobs:
+  deploy:
+    name: Deploy (${{ github.event.inputs.stage || 'production' }})
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js setup ─────────────────────────────────────────────────────
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      # ── 3. Install workspace dependencies ────────────────────────────────────
+      # Installs both client/ and server/ workspace packages so the Vite build
+      # and the server bundle step have all their dependencies available.
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # ── 4. AWS credentials ───────────────────────────────────────────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+
+      # ── 5. SST deploy ────────────────────────────────────────────────────────
+      # Uses npx so SST does not need to be a project dependency.
+      # The stage name controls which set of SST secrets is used and whether
+      # resources are protected from deletion (see sst.config.ts).
+      - name: Deploy with SST
+        run: npx sst@ion deploy --stage ${{ github.event.inputs.stage || 'production' }}
