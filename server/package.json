@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsx watch --clear-screen=false src/server.ts",
+    "bundle": "tsup",
     "test": "vitest --run",
     "test:watch": "vitest",
     "lint": "eslint",
@@ -49,6 +50,7 @@
     "lint-staged": "^11.2.6",
     "prettier": "^3.3.3",
     "supertest": "^7.1.4",
+    "tsup": "^8.5.0",
     "tsx": "^4.17.0",
     "typescript": "5.5.3",
     "typescript-eslint": "^8.1.0",
