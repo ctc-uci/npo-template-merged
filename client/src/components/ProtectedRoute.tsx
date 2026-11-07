@@ -1,10 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { ReactElement } from "react";
 
 import { useAuthContext } from "@/contexts/hooks/useAuthContext";
 import { useRoleContext } from "@/contexts/hooks/useRoleContext";
+import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
-  element: JSX.Element;
+  element: ReactElement;
   allowedRoles?: string | string[];
 }
 

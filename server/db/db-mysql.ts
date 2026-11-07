@@ -1,6 +1,9 @@
 // TODO: keep file only if using mysql
 
+import dotenv from "dotenv";
 import mysql from "mysql";
+
+dotenv.config();
 
 export const host =
   process.env.NODE_ENV === "development"

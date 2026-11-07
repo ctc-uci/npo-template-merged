@@ -1,6 +1,6 @@
 import { keysToCamel } from "@/common/utils";
 import { admin } from "@/config/firebase";
-import { db } from "@/db/db-pgp"; // TODO: replace this db with
+import { db } from "@/db/db-pgp";
 import { verifyRole } from "@/middleware";
 import { Router } from "express";
 

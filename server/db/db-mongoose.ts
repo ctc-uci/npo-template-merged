@@ -1,5 +1,8 @@
 // TODO: keep file only if using mongodb
+import dotenv from "dotenv";
 import mongoose from "mongoose";
+
+dotenv.config();
 
 const mongoURI =
   process.env.NODE_ENV === "development"

@@ -4,25 +4,22 @@ import {
   Button,
   Center,
   Link as ChakraLink,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
+  Field,
   Heading,
   Input,
   Stack,
-  useToast,
   VStack,
 } from "@chakra-ui/react";
 
+import { useAuthContext } from "@/contexts/hooks/useAuthContext";
+import { useBackendContext } from "@/contexts/hooks/useBackendContext";
+import { authenticateGoogleUser } from "@/utils/auth/providers";
+import { toaster } from "@/utils/toaster";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
-
-import { useAuthContext } from "@/contexts/hooks/useAuthContext";
-import { useBackendContext } from "@/contexts/hooks/useBackendContext";
-import { authenticateGoogleUser } from "@/utils/auth/providers";
 
 const signinSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -33,7 +30,6 @@ type SigninFormValues = z.infer<typeof signinSchema>;
 
 export const Login = () => {
   const navigate = useNavigate();
-  const toast = useToast();
 
   const { login, handleRedirectResult } = useAuthContext();
   const { backend } = useBackendContext();
@@ -47,17 +43,13 @@ export const Login = () => {
     mode: "onBlur",
   });
 
-  const toastLoginError = useCallback(
-    (msg: string) => {
-      toast({
-        title: "An error occurred while signing in",
-        description: msg,
-        status: "error",
-        variant: "subtle",
-      });
-    },
-    [toast]
-  );
+  const toastLoginError = useCallback((msg: string) => {
+    toaster.create({
+      title: "An error occurred while signing in",
+      description: msg,
+      type: "error",
+    });
+  }, []);
 
   const handleLogin = async (data: SigninFormValues) => {
     try {
@@ -103,13 +95,14 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    handleRedirectResult(backend, navigate, toast);
-  }, [backend, handleRedirectResult, navigate, toast]);
+    handleRedirectResult(backend, navigate);
+  }, [backend, handleRedirectResult, navigate]);
 
   return (
     <VStack
-      spacing={8}
-      sx={{ width: 300, marginX: "auto" }}
+      gap={8}
+      w="300px"
+      mx="auto"
     >
       <Heading>Login</Heading>
 
@@ -117,54 +110,58 @@ export const Login = () => {
         onSubmit={handleSubmit(handleLogin)}
         style={{ width: "100%" }}
       >
-        <Stack spacing={2}>
-          <FormControl
-            isInvalid={!!errors.email}
+        <Stack gap={2}>
+          <Field.Root
+            invalid={!!errors.email}
             w={"100%"}
           >
-            <Center>
+            <Center w="100%">
               <Input
                 placeholder="Email"
                 type="email"
                 size={"lg"}
+                w="100%"
                 {...register("email")}
                 name="email"
-                isRequired
+                required
                 autoComplete="email"
               />
             </Center>
-            <FormErrorMessage>
+            <Field.ErrorText>
               {errors.email?.message?.toString()}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.password}>
-            <Center>
+            </Field.ErrorText>
+          </Field.Root>
+          <Field.Root
+            invalid={!!errors.password}
+            w={"100%"}
+          >
+            <Center w="100%">
               <Input
                 placeholder="Password"
                 type="password"
                 size={"lg"}
+                w="100%"
                 {...register("password")}
                 name="password"
-                isRequired
+                required
                 autoComplete="current-password"
               />
             </Center>
-            <FormErrorMessage>
+            <Field.ErrorText>
               {errors.password?.message?.toString()}
-            </FormErrorMessage>
-            <ChakraLink
-              as={Link}
-              to="/signup"
-            >
-              <FormHelperText>Click here to sign up</FormHelperText>
+            </Field.ErrorText>
+            <ChakraLink asChild>
+              <Link to="/signup">
+                <Field.HelperText>Click here to sign up</Field.HelperText>
+              </Link>
             </ChakraLink>
-          </FormControl>
+          </Field.Root>
 
           <Button
             type="submit"
             size={"lg"}
-            sx={{ width: "100%" }}
-            isDisabled={Object.keys(errors).length > 0}
+            w="100%"
+            disabled={Object.keys(errors).length > 0}
           >
             Login
           </Button>
@@ -172,12 +169,12 @@ export const Login = () => {
       </form>
 
       <Button
-        leftIcon={<FaGoogle />}
         variant={"solid"}
         size={"lg"}
         onClick={handleGoogleLogin}
-        sx={{ width: "100%" }}
+        w="100%"
       >
+        <FaGoogle />
         Login with Google
       </Button>
     </VStack>

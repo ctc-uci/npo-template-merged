@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { CreateToastFnReturn, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
 import { AxiosInstance } from "axios";
 import {
@@ -15,6 +15,7 @@ import {
 import { NavigateFunction } from "react-router-dom";
 
 import { auth } from "../utils/auth/firebase";
+import { toaster } from "../utils/toaster";
 import { useBackendContext } from "./hooks/useBackendContext";
 
 interface AuthContextProps {
@@ -25,8 +26,7 @@ interface AuthContextProps {
   resetPassword: ({ email }: Pick<EmailPassword, "email">) => Promise<void>;
   handleRedirectResult: (
     backend: AxiosInstance,
-    navigate: NavigateFunction,
-    toast: CreateToastFnReturn
+    navigate: NavigateFunction
   ) => Promise<void>;
 }
 
@@ -86,8 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    */
   const handleRedirectResult = async (
     backend: AxiosInstance,
-    navigate: NavigateFunction,
-    toast: CreateToastFnReturn
+    navigate: NavigateFunction
   ) => {
     try {
       const result = await getRedirectResult(auth);
@@ -102,10 +101,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             });
           } catch (e) {
             await backend.delete(`/users/${result.user.uid}`);
-            toast({
+            toaster.create({
               title: "An error occurred",
               description: `Account was not created: ${e.message}`,
-              status: "error",
+              type: "error",
             });
           }
         }
